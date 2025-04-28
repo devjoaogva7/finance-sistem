@@ -39,6 +39,10 @@ public enum EnumCuponsDisponiveis {
         return valor;
     }
 
+    public boolean isDescontoPercentual() {
+        return this.tipo == TipoDesconto.PERCENTUAL;
+    }
+    
     public static EnumCuponsDisponiveis buscarPorCodigo(String codigo) {
         for (EnumCuponsDisponiveis cupom : values()) {
             if (cupom.getCodigo().equalsIgnoreCase(codigo)) {
