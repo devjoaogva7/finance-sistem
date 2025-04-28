@@ -32,3 +32,10 @@ public class SistemaPagamentoController {
         return null;
     }
 }
+
+@GetMapping("/pedido/{id}/total")
+public ResponseEntity<BigDecimal> calcularValorTotalPedido(@PathVariable Long id) {
+    BigDecimal valorTotal = service.calcularValorTotalPedido(id);
+    return ResponseEntity.ok(valorTotal);
+}
+

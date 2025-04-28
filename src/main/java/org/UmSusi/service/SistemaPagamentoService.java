@@ -50,3 +50,15 @@ public class SistemaPagamentoService {
         );
     }
 }
+
+@Autowired
+private PedidoRepository pedidoRepository;
+
+public BigDecimal calcularValorTotalPedido(Long pedidoId) {
+    Optional<Pedido> pedidoOptional = pedidoRepository.findById(pedidoId);
+    if (pedidoOptional.isEmpty()) {
+        throw new RuntimeException("Pedido não encontrado com ID: " + pedidoId);
+    }
+    Pedido pedido = pedidoOptional.get();
+    return pedido.calcularValorTotal();
+}
