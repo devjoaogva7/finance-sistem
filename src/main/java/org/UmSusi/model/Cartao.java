@@ -4,8 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class Frete {
+public class Cartao {
 
     @Id
-    private Long id;
+    private Long numero;
 }
