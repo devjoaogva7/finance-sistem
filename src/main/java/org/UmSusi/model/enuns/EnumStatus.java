@@ -1,6 +1,6 @@
 package org.UmSusi.model.enuns;
 
-public enum EnumStatusPagamento {
+public enum EnumStatus {
 
     APROVADO(1, "Aprovado"),
     PENDENTE(2, "Pendente"),
@@ -10,7 +10,7 @@ public enum EnumStatusPagamento {
     private int valor;
     private String descricao;
 
-    EnumStatusPagamento(int valor, String descricao) {
+    EnumStatus(int valor, String descricao) {
         this.valor = valor;
         this.descricao = descricao;
     }
