@@ -2,15 +2,13 @@ package org.UmSusi.controller;
 
 import org.UmSusi.controller.dto.PagamentoRequestDTO;
 import org.UmSusi.controller.mapper.PagamentoMapper;
-import org.UmSusi.repository.Entity.PagamentoEntity;
 import org.UmSusi.service.SistemaPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/pagamento")
@@ -30,5 +28,12 @@ public class SistemaPagamentoController {
     @PostMapping("/finalizar-pagamento")
     public ResponseEntity<String> finalizarPagamento(String simOuNao) {
         return null;
+    }
+
+    // 🔥 Novo endpoint para calcular o total do pedido
+    @GetMapping("/pedido/{id}/total")
+    public ResponseEntity<BigDecimal> calcularValorTotalPedido(@PathVariable Long id) {
+        BigDecimal valorTotal = service.calcularValorTotalPedido(id);
+        return ResponseEntity.ok(valorTotal);
     }
 }

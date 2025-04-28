@@ -1,22 +1,28 @@
 package org.UmSusi.service;
 
-import org.UmSusi.repository.Entity.PagamentoEntity;
 import org.UmSusi.model.Pedido;
+import org.UmSusi.repository.PedidoRepository;
+import org.UmSusi.repository.Entity.PagamentoEntity;
 import org.UmSusi.model.enuns.EnumFormaPagamento;
 import org.UmSusi.model.enuns.EnumStatus;
 import org.UmSusi.repository.SistemaPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SistemaPagamentoService {
 
     @Autowired
     private SistemaPagamentoRepository pagamentoRepository;
+
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     public String processarPagamento(PagamentoEntity request) {
         request.setStatus(EnumStatus.PENDENTE);
@@ -48,5 +54,15 @@ public class SistemaPagamentoService {
                 pedido,
                 valor
         );
+    }
+
+    // 🔥 Novo método para calcular o valor total do pedido
+    public BigDecimal calcularValorTotalPedido(Long pedidoId) {
+        Optional<Pedido> pedidoOptional = pedidoRepository.findById(pedidoId);
+        if (pedidoOptional.isEmpty()) {
+            throw new RuntimeException("Pedido não encontrado com ID: " + pedidoId);
+        }
+        Pedido pedido = pedidoOptional.get();
+        return pedido.calcularValorTotal();
     }
 }
