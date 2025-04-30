@@ -1,5 +1,7 @@
 package org.UmSusi.service;
 
+import org.UmSusi.controller.dto.FinalizarPagamentoDTO;
+import org.UmSusi.model.enuns.EnumConfirmacaoPagamento;
 import org.UmSusi.repository.Entity.PagamentoEntity;
 import org.UmSusi.model.Pedido;
 import org.UmSusi.model.enuns.EnumFormaPagamento;
@@ -48,5 +50,19 @@ public class SistemaPagamentoService {
                 pedido,
                 valor
         );
+    }
+
+    public String finalizarPagamento(FinalizarPagamentoDTO dto) {
+        PagamentoEntity pagamento = pagamentoRepository.findById(dto.getIdPagamento())
+                .orElseThrow(() -> new IllegalArgumentException("Pagamento não encontrado com o ID: " + dto.getIdPagamento()));
+
+        if (dto.getConfirmacao() == EnumConfirmacaoPagamento.SIM) {
+            pagamento.setStatus(EnumStatus.APROVADO);
+        } else if (dto.getConfirmacao() == EnumConfirmacaoPagamento.NAO) {
+            pagamento.setStatus(EnumStatus.CANCELADO);
+        }
+
+        pagamentoRepository.save(pagamento);
+        return "Status do pagamento atualizado para: " + pagamento.getStatus().getDescricao();
     }
 }
