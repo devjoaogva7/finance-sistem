@@ -1,55 +1,50 @@
 package org.UmSusi.repository.Entity;
 
 import jakarta.persistence.*;
-import org.UmSusi.model.Cliente;
-import org.UmSusi.model.Estabelecimento;
-import org.UmSusi.model.Frete;
-import org.UmSusi.model.Pedido;
-import org.UmSusi.model.enuns.EnumCuponsDisponiveis;
-import org.UmSusi.model.enuns.EnumFormaPagamento;
-import org.UmSusi.model.enuns.EnumStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "pagamento")
 public class PagamentoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double valor;
-    private EnumStatus status;
+    private String status;
     private LocalDateTime datahora;
-    private EnumFormaPagamento formaPagamento;
-    @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    private String formaPagamento;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "cliente")
+    private ClienteEntity cliente;
     @OneToOne
-    @JoinColumn(name = "estabelecimento_id")
-    private Estabelecimento estabelecimento;
-    private EnumCuponsDisponiveis cupom;
+    @JoinColumn(name = "estabelecimento")
+    private EstabelecimentoEntity estabelecimentoEntity;
+    private String cupom;
     @ManyToOne
-    @JoinColumn(name = "frete_id")
+    @JoinColumn(name = "frete")
     private Frete frete;
     @OneToMany
-    @JoinColumn(name = "pagamento_id")
-    private List<Pedido> pedido;
+    @JoinColumn(name = "pagamento")
+    private List<PedidoEntity> pedidos;
 
     public PagamentoEntity() {
     }
 
-    public PagamentoEntity(Long id, Double valor, EnumStatus status, LocalDateTime datahora, EnumFormaPagamento formaPagamento, Cliente cliente, Estabelecimento estabelecimento, EnumCuponsDisponiveis cupom, Frete frete, List<Pedido> pedido) {
+    public PagamentoEntity(Long id, Double valor, String status, LocalDateTime datahora, String formaPagamento, ClienteEntity cliente,
+                           EstabelecimentoEntity estabelecimentoEntity, String cupom, Frete frete, List<PedidoEntity> pedidos) {
         this.id = id;
         this.valor = valor;
         this.status = status;
         this.datahora = datahora;
         this.formaPagamento = formaPagamento;
         this.cliente = cliente;
-        this.estabelecimento = estabelecimento;
+        this.estabelecimentoEntity = estabelecimentoEntity;
         this.cupom = cupom;
         this.frete = frete;
-        this.pedido = pedido;
+        this.pedidos = pedidos;
     }
 
     public Long getId() {
@@ -64,11 +59,11 @@ public class PagamentoEntity {
         this.valor = valor;
     }
 
-    public EnumStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(EnumStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -80,35 +75,35 @@ public class PagamentoEntity {
         this.datahora = datahora;
     }
 
-    public EnumFormaPagamento getFormaPagamento() {
+    public String getFormaPagamento() {
         return formaPagamento;
     }
 
-    public void setFormaPagamento(EnumFormaPagamento formaPagamento) {
+    public void setFormaPagamento(String formaPagamento) {
         this.formaPagamento = formaPagamento;
     }
 
-    public Cliente getCliente() {
+    public ClienteEntity getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(ClienteEntity cliente) {
         this.cliente = cliente;
     }
 
-    public Estabelecimento getEstabelecimento() {
-        return estabelecimento;
+    public EstabelecimentoEntity getEstabelecimentoEntity() {
+        return estabelecimentoEntity;
     }
 
-    public void setEstabelecimento(Estabelecimento estabelecimento) {
-        this.estabelecimento = estabelecimento;
+    public void setEstabelecimentoEntity(EstabelecimentoEntity estabelecimentoEntity) {
+        this.estabelecimentoEntity = estabelecimentoEntity;
     }
 
-    public EnumCuponsDisponiveis getCupom() {
+    public String getCupom() {
         return cupom;
     }
 
-    public void setCupom(EnumCuponsDisponiveis cupom) {
+    public void setCupom(String cupom) {
         this.cupom = cupom;
     }
 
@@ -120,11 +115,12 @@ public class PagamentoEntity {
         this.frete = frete;
     }
 
-    public List<Pedido> getPedido() {
-        return pedido;
+    public List<PedidoEntity> getPedidos() {
+        return pedidos;
     }
 
-    public void setPedido(List<Pedido> pedido) {
-        this.pedido = pedido;
+    public void setPedidos(List<PedidoEntity> pedidos) {
+        this.pedidos = pedidos;
     }
 }
+

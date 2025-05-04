@@ -1,51 +1,50 @@
 package org.UmSusi.model.enuns;
 
+import java.time.LocalDate;
+
 public enum EnumCuponsDisponiveis {
 
-    BEMVINDO10("BEMVINDO10", "Primeira compra", TipoDesconto.PERCENTUAL, 10.0),
-    FRETEGRATIS("FRETEGRATIS", "Frete grátis para qualquer pedido", TipoDesconto.FRETE, 100.0),
-    SUPER20("SUPER20", "Desconto em compras acima de R$100", TipoDesconto.PERCENTUAL, 20.0),
-    PRIMEIRACOMPRA("PRIMEIRACOMPRA", "Cupom exclusivo para novos clientes", TipoDesconto.VALOR_FIXO, 15.0),
-    BLACK50("BLACK50", "Promoção estilo Black Friday", TipoDesconto.PERCENTUAL, 50.0),
-    VERAO2025("VERAO2025", "Promoção sazonal de verão", TipoDesconto.PERCENTUAL, 25.0),
-    VIP30("VIP30", "Desconto para usuários VIP", TipoDesconto.PERCENTUAL, 30.0),
-    NATAL2025("NATAL2025", "Cupom de fim de ano", TipoDesconto.VALOR_FIXO, 20.0);
+    BEMVINDO10("BEMVINDO10", LocalDate.of(2025, 12, 31), 10.0),
+    FRETEGRATIS("FRETEGRATIS", LocalDate.of(2025, 7, 1), 100.0), // Pode tratar como frete grátis
+    SUPER20("SUPER20", LocalDate.of(2025, 8, 15), 20.0),
+    PRIMEIRACOMPRA("PRIMEIRACOMPRA", LocalDate.of(2025, 12, 31), 15.0),
+    BLACK50("BLACK50", LocalDate.of(2025, 11, 30), 50.0),
+    VERAO2025("VERAO2025", LocalDate.of(2025, 3, 21), 25.0),
+    VIP30("VIP30", LocalDate.of(2025, 9, 30), 30.0),
+    NATAL2025("NATAL2025", LocalDate.of(2025, 12, 25), 20.0);
 
-    private final String codigo;
-    private final String descricao;
-    private final TipoDesconto tipo;
-    private final double valor;
+    private final String nome;
+    private final LocalDate validade;
+    private final double descontoPercentual;
 
-    EnumCuponsDisponiveis(String codigo, String descricao, TipoDesconto tipo, double valor) {
-        this.codigo = codigo;
-        this.descricao = descricao;
-        this.tipo = tipo;
-        this.valor = valor;
+    EnumCuponsDisponiveis(String nome, LocalDate validade, double descontoPercentual) {
+        this.nome = nome;
+        this.validade = validade;
+        this.descontoPercentual = descontoPercentual;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getNome() {
+        return nome;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public LocalDate getValidade() {
+        return validade;
     }
 
-    public TipoDesconto getTipo() {
-        return tipo;
+    public double getDescontoPercentual() {
+        return descontoPercentual;
     }
 
-    public double getValor() {
-        return valor;
+    public boolean isValido() {
+        return !LocalDate.now().isAfter(validade);
     }
 
-    public static EnumCuponsDisponiveis buscarPorCodigo(String codigo) {
+    public static EnumCuponsDisponiveis buscarPorNome(String nome) {
         for (EnumCuponsDisponiveis cupom : values()) {
-            if (cupom.getCodigo().equalsIgnoreCase(codigo)) {
+            if (cupom.getNome().equalsIgnoreCase(nome)) {
                 return cupom;
             }
         }
         return null;
     }
-
 }

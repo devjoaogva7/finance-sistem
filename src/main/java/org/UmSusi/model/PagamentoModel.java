@@ -1,16 +1,18 @@
-package org.UmSusi.controller.dto;
+package org.UmSusi.model;
 
 import org.UmSusi.model.enuns.EnumCuponsDisponiveis;
 import org.UmSusi.model.enuns.EnumFormaPagamento;
 
-
-public class PagamentoRequestDTO {
+public class PagamentoModel {
 
     private EnumFormaPagamento formaPagamento;
-    private ClienteRequestDTO cliente;
+    private ClienteModel cliente;
     private EnumCuponsDisponiveis cupom;
 
-    public PagamentoRequestDTO(EnumFormaPagamento formaPagamento, ClienteRequestDTO cliente, EnumCuponsDisponiveis cupom) {
+    public PagamentoModel() {
+    }
+
+    public PagamentoModel(EnumFormaPagamento formaPagamento, ClienteModel cliente, EnumCuponsDisponiveis cupom) {
         this.formaPagamento = formaPagamento;
         this.cliente = cliente;
         this.cupom = cupom;
@@ -24,11 +26,11 @@ public class PagamentoRequestDTO {
         this.formaPagamento = formaPagamento;
     }
 
-    public ClienteRequestDTO getCliente() {
+    public ClienteModel getCliente() {
         return cliente;
     }
 
-    public void setCliente(ClienteRequestDTO cliente) {
+    public void setCliente(ClienteModel cliente) {
         this.cliente = cliente;
     }
 
