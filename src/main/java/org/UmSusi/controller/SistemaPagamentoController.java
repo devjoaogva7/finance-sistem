@@ -1,8 +1,8 @@
 package org.UmSusi.controller;
 
+import org.UmSusi.controller.dto.FinalizarPagamentoDTO;
 import org.UmSusi.controller.dto.PagamentoRequestDTO;
 import org.UmSusi.controller.mapper.PagamentoMapper;
-import org.UmSusi.repository.Entity.PagamentoEntity;
 import org.UmSusi.service.SistemaPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,11 +24,11 @@ public class SistemaPagamentoController {
 
     @PostMapping("/processando")
     public ResponseEntity<String> processarPagamento(@RequestBody PagamentoRequestDTO request) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.processarPagamento(mapper.toEntity(request)));
+        return ResponseEntity.status(HttpStatus.OK).body(service.processarPagamento(mapper.toPagamentoModel(request)));
     }
 
     @PostMapping("/finalizar-pagamento")
-    public ResponseEntity<String> finalizarPagamento(String simOuNao) {
-        return null;
+    public ResponseEntity<String> finalizarPagamento(@RequestBody FinalizarPagamentoDTO request) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.finalizarPagamento(mapper.toFinalizarModel(request)));
     }
 }

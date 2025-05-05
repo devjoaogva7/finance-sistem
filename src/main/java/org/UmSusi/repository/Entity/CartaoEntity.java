@@ -1,0 +1,13 @@
+package org.UmSusi.repository.Entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "cartao")
+public class CartaoEntity {
+
+    @Id
+    private Long numero;
+}

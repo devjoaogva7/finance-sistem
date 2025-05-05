@@ -1,11 +1,11 @@
-package org.UmSusi.model;
+package org.UmSusi.repository.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class Cartao {
+public class Frete {
 
     @Id
-    private Long numero;
+    private Long id;
 }

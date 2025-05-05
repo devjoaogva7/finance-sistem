@@ -1,10 +1,10 @@
-package org.UmSusi.model;
+package org.UmSusi.repository.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class Frete {
+public class ContaBancaria {
 
     @Id
     private Long id;
