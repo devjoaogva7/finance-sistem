@@ -1,5 +1,5 @@
-INSERT INTO estabelecimento (cnpj, nome, conta_bancaria, endereco)
-VALUES ('15576315825589', 'UM SUSHI', '12345-6', 'Rua das Camelias');
+INSERT INTO estabelecimento (cnpj, nome, conta_bancaria, endereco, pix)
+VALUES ('15576315825589', 'UM SUSHI', '12345-6', 'Rua das Camelias', '00020126360014BR.GOV.BCB.PIX0114+5511999999995204000053039865802BR5920NOME DO RECEBEDOR6009SAO PAULO62290525TXID1234567890123456786304ABCD');
 
 INSERT INTO produto (nome, preco, quantidade, descricao) VALUES
 ('hot crispy poro', 29.80, 10, 'hot philadelphia - de salmao grelhado - coberto com cream cheese e crispy de alho poro'),
