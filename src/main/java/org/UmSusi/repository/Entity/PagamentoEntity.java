@@ -17,31 +17,27 @@ public class PagamentoEntity {
     private LocalDateTime datahora;
     private String formaPagamento;
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "cliente")
     private ClienteEntity cliente;
     @OneToOne
-    @JoinColumn(name = "estabelecimento")
-    private EstabelecimentoEntity estabelecimentoEntity;
+    private EstabelecimentoEntity estabelecimento;
     private String cupom;
     @ManyToOne
-    @JoinColumn(name = "frete")
     private Frete frete;
     @OneToMany
-    @JoinColumn(name = "pagamento")
-    private List<PedidoEntity> pedidos;
+    private List<ProdutoEntity> pedidos;
 
     public PagamentoEntity() {
     }
 
     public PagamentoEntity(Long id, Double valor, String status, LocalDateTime datahora, String formaPagamento, ClienteEntity cliente,
-                           EstabelecimentoEntity estabelecimentoEntity, String cupom, Frete frete, List<PedidoEntity> pedidos) {
+                           EstabelecimentoEntity estabelecimento, String cupom, Frete frete, List<ProdutoEntity> pedidos) {
         this.id = id;
         this.valor = valor;
         this.status = status;
         this.datahora = datahora;
         this.formaPagamento = formaPagamento;
         this.cliente = cliente;
-        this.estabelecimentoEntity = estabelecimentoEntity;
+        this.estabelecimento = estabelecimento;
         this.cupom = cupom;
         this.frete = frete;
         this.pedidos = pedidos;
@@ -50,6 +46,7 @@ public class PagamentoEntity {
     public Long getId() {
         return id;
     }
+
 
     public Double getValor() {
         return valor;
@@ -92,11 +89,11 @@ public class PagamentoEntity {
     }
 
     public EstabelecimentoEntity getEstabelecimentoEntity() {
-        return estabelecimentoEntity;
+        return estabelecimento;
     }
 
-    public void setEstabelecimentoEntity(EstabelecimentoEntity estabelecimentoEntity) {
-        this.estabelecimentoEntity = estabelecimentoEntity;
+    public void setEstabelecimentoEntity(EstabelecimentoEntity estabelecimento) {
+        this.estabelecimento = estabelecimento;
     }
 
     public String getCupom() {
@@ -115,11 +112,11 @@ public class PagamentoEntity {
         this.frete = frete;
     }
 
-    public List<PedidoEntity> getPedidos() {
+    public List<ProdutoEntity> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(List<PedidoEntity> pedidos) {
+    public void setPedidos(List<ProdutoEntity> pedidos) {
         this.pedidos = pedidos;
     }
 }

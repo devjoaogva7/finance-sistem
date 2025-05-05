@@ -1,6 +1,8 @@
 package org.UmSusi.controller.mapper;
 
+import org.UmSusi.controller.dto.FinalizarPagamentoDTO;
 import org.UmSusi.controller.dto.PagamentoRequestDTO;
+import org.UmSusi.model.FinalizarPagamentoModel;
 import org.UmSusi.model.PagamentoModel;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
@@ -14,5 +16,7 @@ import org.mapstruct.ReportingPolicy;
 public interface PagamentoMapper {
 
 
-    PagamentoModel toModel(PagamentoRequestDTO request);
+    PagamentoModel toPagamentoModel(PagamentoRequestDTO request);
+
+    FinalizarPagamentoModel toFinalizarModel(FinalizarPagamentoDTO request);
 }

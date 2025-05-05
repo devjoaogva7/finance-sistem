@@ -1,13 +1,13 @@
-package org.UmSusi.controller.dto;
+package org.UmSusi.model;
 
 import org.UmSusi.model.enuns.EnumConfirmacaoPagamento;
 
-public class FinalizarPagamentoDTO {
+public class FinalizarPagamentoModel {
 
     private Long idPagamento;
     private EnumConfirmacaoPagamento confirmacao;
 
-    public FinalizarPagamentoDTO(Long idPagamento, EnumConfirmacaoPagamento confirmacao) {
+    public FinalizarPagamentoModel(Long idPagamento, EnumConfirmacaoPagamento confirmacao) {
         this.idPagamento = idPagamento;
         this.confirmacao = confirmacao;
     }

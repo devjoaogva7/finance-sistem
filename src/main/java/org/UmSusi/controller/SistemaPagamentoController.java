@@ -24,12 +24,11 @@ public class SistemaPagamentoController {
 
     @PostMapping("/processando")
     public ResponseEntity<String> processarPagamento(@RequestBody PagamentoRequestDTO request) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.processarPagamento(mapper.toModel(request)));
+        return ResponseEntity.status(HttpStatus.OK).body(service.processarPagamento(mapper.toPagamentoModel(request)));
     }
 
     @PostMapping("/finalizar-pagamento")
-    public ResponseEntity<String> finalizarPagamento(@RequestBody FinalizarPagamentoDTO dto) {
-        String mensagem = service.finalizarPagamento(dto);
-        return ResponseEntity.ok(mensagem);
+    public ResponseEntity<String> finalizarPagamento(@RequestBody FinalizarPagamentoDTO request) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.finalizarPagamento(mapper.toFinalizarModel(request)));
     }
 }
