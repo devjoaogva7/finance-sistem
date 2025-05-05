@@ -12,15 +12,17 @@ public class EstabelecimentoEntity {
     private String nome;
     private String contaBancaria;
     private String endereco;
+    private String pix;
 
     public EstabelecimentoEntity() {
     }
 
-    public EstabelecimentoEntity(Long cnpj, String nome, String contaBancaria, String endereco) {
+    public EstabelecimentoEntity(Long cnpj, String nome, String contaBancaria, String endereco, String pix) {
         this.cnpj = cnpj;
         this.nome = nome;
         this.contaBancaria = contaBancaria;
         this.endereco = endereco;
+        this.pix = pix;
     }
 
     public Long getCnpj() {
@@ -53,5 +55,13 @@ public class EstabelecimentoEntity {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public String getPix() {
+        return pix;
+    }
+
+    public void setPix(String pix) {
+        this.pix = pix;
     }
 }

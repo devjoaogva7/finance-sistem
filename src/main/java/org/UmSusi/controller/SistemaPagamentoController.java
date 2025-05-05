@@ -3,14 +3,13 @@ package org.UmSusi.controller;
 import org.UmSusi.controller.dto.FinalizarPagamentoDTO;
 import org.UmSusi.controller.dto.PagamentoRequestDTO;
 import org.UmSusi.controller.mapper.PagamentoMapper;
+import org.UmSusi.model.QrCodeResponseModel;
 import org.UmSusi.service.SistemaPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pagamento")
@@ -27,8 +26,18 @@ public class SistemaPagamentoController {
         return ResponseEntity.status(HttpStatus.OK).body(service.processarPagamento(mapper.toPagamentoModel(request)));
     }
 
+    @GetMapping("/pix")
+    public ResponseEntity<byte[]> getQrCodeImagem() {
+        byte[] imagemQrCode = service.gerarQrCodeComoImagem();
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(imagemQrCode);
+    }
+
     @PostMapping("/finalizar-pagamento")
     public ResponseEntity<String> finalizarPagamento(@RequestBody FinalizarPagamentoDTO request) {
         return ResponseEntity.status(HttpStatus.OK).body(service.finalizarPagamento(mapper.toFinalizarModel(request)));
     }
+
 }
