@@ -10,4 +10,8 @@ public class CartaoEntity {
 
     @Id
     private Long numero;
+    private String nomeTitular;
+    private String validade;
+    private String cvv;
+    private String bandeira;
 }

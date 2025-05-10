@@ -3,23 +3,26 @@ package org.UmSusi.service;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 import jakarta.persistence.EntityNotFoundException;
 import org.UmSusi.model.FinalizarPagamentoModel;
 import org.UmSusi.model.PagamentoModel;
+import org.UmSusi.model.Pedido;
 import org.UmSusi.model.QrCodeResponseModel;
 import org.UmSusi.model.enuns.EnumConfirmacaoPagamento;
+import org.UmSusi.model.enuns.EnumFormaPagamento;
 import org.UmSusi.model.enuns.EnumStatus;
 import org.UmSusi.repository.Entity.EstabelecimentoEntity;
 import org.UmSusi.repository.Entity.PagamentoEntity;
 import org.UmSusi.repository.Entity.ProdutoEntity;
 import org.UmSusi.repository.EstabelecimentoRepository;
+import org.UmSusi.repository.PedidoRepository;
 import org.UmSusi.repository.SistemaPagamentoRepository;
 import org.UmSusi.repository.mapper.EntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
@@ -34,15 +37,12 @@ public class SistemaPagamentoService {
     private EstabelecimentoRepository estabelecimentoRepository;
     @Autowired
     private EntityMapper mapper;
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     public String processarPagamento(PagamentoModel request) {
-
-        //TODO chamar  o metodo do frete e do desconto no valor da compra
-        //TODO salvar o valor do pagamento, o frete
         PagamentoEntity savedEntity = pagamentoRepository.save(mapper.toPagamentoEntity(request));
-
-        return "Pagamento processado com ID: " + savedEntity.getId() +
-                ". Status: \"PENDENTE\", aguardando confirmação.";
+        return "Pagamento processado com ID: " + savedEntity.getId() + ". Status: \"PENDENTE\", aguardando confirmação.";
     }
 
     public byte[] gerarQrCodeComoImagem() {
@@ -68,7 +68,6 @@ public class SistemaPagamentoService {
         pagamento.setEstabelecimentoEntity(estabelecimento);
 
         var pFinalizado = pagamentoRepository.save(pagamento);
-
 
         return comprovante(
                 pFinalizado.getCliente().getNome(),
@@ -105,8 +104,15 @@ public class SistemaPagamentoService {
         );
     }
 
-    //TODO implementar metodo do frete
-    //TODO imeplementar metodo para descontar o cupom no valor da compra
+    // 🔥 Novo método para calcular o valor total do pedido
+    public BigDecimal calcularValorTotalPedido(Long pedidoId) {
+        Optional<Pedido> pedidoOptional = pedidoRepository.findById(pedidoId);
+        if (pedidoOptional.isEmpty()) {
+            throw new RuntimeException("Pedido não encontrado com ID: " + pedidoId);
+        }
+        Pedido pedido = pedidoOptional.get();
+        return pedido.calcularValorTotal();
+    }
 
     private byte[] gerarImagemQrCode(String codigoPix) {
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
