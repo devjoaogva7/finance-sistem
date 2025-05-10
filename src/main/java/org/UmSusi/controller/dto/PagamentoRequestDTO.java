@@ -3,24 +3,40 @@ package org.UmSusi.controller.dto;
 import org.UmSusi.model.enuns.EnumCuponsDisponiveis;
 import org.UmSusi.model.enuns.EnumFormaPagamento;
 
-import java.util.List;
 
 public class PagamentoRequestDTO {
 
-    private String formaPagamento;
-    private ClienteRequest cliente;
-    private String cupom;
-    private List<PedidoRequest> pedidos;
+    private EnumFormaPagamento formaPagamento;
+    private ClienteRequestDTO cliente;
+    private EnumCuponsDisponiveis cupom;
 
-    public static class PedidoRequest{
-        private String nome;
+    public PagamentoRequestDTO(EnumFormaPagamento formaPagamento, ClienteRequestDTO cliente, EnumCuponsDisponiveis cupom) {
+        this.formaPagamento = formaPagamento;
+        this.cliente = cliente;
+        this.cupom = cupom;
     }
 
-    public static class ClienteRequest{
-        private Long cpf;
-        private String nome;
-        private String email;
-        private String telefone;
-        private String endereco;
+    public EnumFormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public void setFormaPagamento(EnumFormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public ClienteRequestDTO getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteRequestDTO cliente) {
+        this.cliente = cliente;
+    }
+
+    public EnumCuponsDisponiveis getCupom() {
+        return cupom;
+    }
+
+    public void setCupom(EnumCuponsDisponiveis cupom) {
+        this.cupom = cupom;
     }
 }

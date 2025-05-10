@@ -1,15 +1,22 @@
 package org.UmSusi.controller.mapper;
 
+import org.UmSusi.controller.dto.FinalizarPagamentoDTO;
 import org.UmSusi.controller.dto.PagamentoRequestDTO;
-import org.UmSusi.repository.Entity.PagamentoEntity;
+import org.UmSusi.model.FinalizarPagamentoModel;
+import org.UmSusi.model.PagamentoModel;
+import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedSourcePolicy = ReportingPolicy.IGNORE,
+        builder = @Builder(disableBuilder = true)
+)
 public interface PagamentoMapper {
 
-    PagamentoMapper INSTANCE = Mappers.getMapper(PagamentoMapper.class);
 
-    // Mapeia PagamentoDTO para Pagamento
-    PagamentoEntity toEntity(PagamentoRequestDTO pagamentoDTO);
+    PagamentoModel toPagamentoModel(PagamentoRequestDTO request);
+
+    FinalizarPagamentoModel toFinalizarModel(FinalizarPagamentoDTO request);
 }

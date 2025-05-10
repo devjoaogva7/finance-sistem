@@ -1,11 +1,11 @@
-package org.UmSusi.model;
+package org.UmSusi.repository.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import java.math.BigDecimal;
 
 @Entity
-public class Produto {
+public class Frete {
 
     @Id
     private Long id;
