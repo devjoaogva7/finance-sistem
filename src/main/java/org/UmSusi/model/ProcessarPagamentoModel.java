@@ -6,14 +6,16 @@ import org.UmSusi.model.enuns.EnumFormaPagamento;
 public class ProcessarPagamentoModel {
 
     private EnumFormaPagamento formaPagamento;
+    private Integer parcelas;
     private EnumCuponsDisponiveis cupom;
     private Long cpf;
 
     public ProcessarPagamentoModel() {
     }
 
-    public ProcessarPagamentoModel(EnumFormaPagamento formaPagamento, EnumCuponsDisponiveis cupom, Long cpf) {
+    public ProcessarPagamentoModel(EnumFormaPagamento formaPagamento, Integer parcelas, EnumCuponsDisponiveis cupom, Long cpf) {
         this.formaPagamento = formaPagamento;
+        this.parcelas = parcelas;
         this.cupom = cupom;
         this.cpf = cpf;
     }
@@ -40,5 +42,13 @@ public class ProcessarPagamentoModel {
 
     public void setCpf(Long cpf) {
         this.cpf = cpf;
+    }
+
+    public Integer getParcelas() {
+        return parcelas;
+    }
+
+    public void setParcelas(Integer parcelas) {
+        this.parcelas = parcelas;
     }
 }

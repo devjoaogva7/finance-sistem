@@ -24,15 +24,9 @@ public class SistemaPagamentoController {
         return ResponseEntity.status(HttpStatus.OK).body(service.processarPagamento(mapper.toPagamentoModel(request)));
     }
 
-//    @PostMapping("/finalizar-pagamento")
-//    public ResponseEntity<String> finalizarPagamento(@RequestBody FinalizarPagamentoDTO request) {
-//        return ResponseEntity.status(HttpStatus.OK).body(service.finalizarPagamento(mapper.toFinalizarModel(request)));
-//    }
+    @PostMapping("/finalizar-pagamento")
+    public ResponseEntity<String> finalizarPagamento(@RequestBody FinalizarPagamentoDTO request) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.finalizarPagamento(mapper.toFinalizarModel(request)));
+    }
 
-//    // 🔥 Novo endpoint para calcular o total do pedido
-//    @GetMapping("/pedido/{id}/total")
-//    public ResponseEntity<BigDecimal> calcularValorTotalPedido(@PathVariable Long id) {
-//        BigDecimal valorTotal = service.calcularValorTotalPedido(id);
-//        return ResponseEntity.ok(valorTotal);
-//    }
 }

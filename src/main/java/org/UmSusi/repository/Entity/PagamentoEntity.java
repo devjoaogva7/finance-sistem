@@ -3,6 +3,7 @@ package org.UmSusi.repository.Entity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -26,11 +27,13 @@ public class PagamentoEntity {
     @OneToOne
     private PedidoEntity pedido;
     private BigDecimal valor;
+    private Integer parcelas;
 
     public PagamentoEntity() {
     }
 
-    public PagamentoEntity(Long id, String status, LocalDateTime datahora, String formaPagamento, ClienteEntity cliente, EstabelecimentoEntity estabelecimento, String cupom, FreteEntity frete, PedidoEntity pedido, BigDecimal valor) {
+    public PagamentoEntity(Long id, String status, LocalDateTime datahora, String formaPagamento, ClienteEntity cliente, EstabelecimentoEntity estabelecimento, String cupom,
+                           FreteEntity frete, PedidoEntity pedido, BigDecimal valor, Integer parcelas) {
         this.id = id;
         this.status = status;
         this.datahora = datahora;
@@ -41,6 +44,7 @@ public class PagamentoEntity {
         this.frete = frete;
         this.pedido = pedido;
         this.valor = valor;
+        this.parcelas = parcelas;
     }
 
     public Long getId() {
@@ -119,22 +123,59 @@ public class PagamentoEntity {
         this.valor = valor;
     }
 
-    @Override
-    public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        String formattedDate = datahora != null ? datahora.format(formatter) : "não disponível";
+    public Integer getParcelas() {
+        return parcelas;
+    }
 
-        return "Dados do Pagamento: " +
-                "\n  - id: " + id +
-                "\n  - Status: " + status +
-                "\n  - Data e Hora: " + formattedDate +
-                "\n  - Forma de Pagamento: " + formaPagamento +
-                "\n  - Cliente: " + (cliente != null ? cliente.toString() : "não disponível") +
-                "\n  - Estabelecimento: " + (estabelecimento != null ? estabelecimento.toString() : "não disponível") +
-                "\n  - Cupom: " + (cupom != null ? cupom : "não disponível") +
-                "\n  - Frete: " + (frete != null ? frete.toString() : "não disponível") +
-                "\n  - Pedido: " + (pedido != null ? pedido.toString() : "não disponível") +
-                "\n  - Valor Total: R$ " + String.format("%.2f", valor);
+    public void setParcelas(Integer parcelas) {
+        this.parcelas = parcelas;
+    }
+
+    public String comprovante() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+        StringBuilder itensPedido = new StringBuilder();
+        if (pedido != null && pedido.getProdutoEntities() != null) {
+            for (ProdutoEntity produto : pedido.getProdutoEntities()) {
+                itensPedido.append(produto.getNome())
+                        .append(" - R$ ").append(String.format("%.2f", produto.getPreco()))
+                        .append("\n");
+            }
+        }
+
+        String formattedDate = datahora != null ? datahora.format(formatter) : "não disponível";
+        int qtdParcelas = parcelas != null ? parcelas : 1;
+        BigDecimal total = valor != null ? valor : BigDecimal.ZERO;
+        BigDecimal valorParcela = qtdParcelas > 1 ? total.divide(BigDecimal.valueOf(qtdParcelas), 2, RoundingMode.HALF_UP) : total;
+
+        return String.format(
+                "===== COMPROVANTE DE PAGAMENTO =====\n" +
+                        "Cliente: %s\n" +
+                        "CPF: %s\n" +
+                        "Estabelecimento: %s\n" +
+                        "CNPJ: %s\n" +
+                        "Forma de Pagamento: %s\n" +
+                        "Data do Pagamento: %s\n" +
+                        "------------------------------------\n" +
+                        "Itens do Pedido:\n%s" +
+                        "------------------------------------\n" +
+                        "Valor Total: R$ %.2f\n" +
+                        "Parcelas: %d\n" +
+                        "%s" + // Valor da parcela (se houver)
+                        "Frete: R$ %.2f\n" +
+                        "====================================",
+                cliente != null ? cliente.getNome() : "não disponível",
+                cliente != null ? String.valueOf(cliente.getCpf()) : "não disponível",
+                estabelecimento != null ? estabelecimento.getNome() : "não disponível",
+                estabelecimento != null ? String.valueOf(estabelecimento.getCnpj()) : "não disponível",
+                formaPagamento != null ? formaPagamento : "não disponível",
+                formattedDate,
+                itensPedido.toString(),
+                total,
+                qtdParcelas,
+                qtdParcelas > 1 ? String.format("Valor por Parcela: R$ %.2f\n", valorParcela) : "",
+                frete != null ? frete.getPreco() : BigDecimal.ZERO
+        );
     }
 }
 

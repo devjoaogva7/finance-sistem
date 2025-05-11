@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-05-11T12:33:17-0300",
+    date = "2025-05-11T15:23:24-0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)"
 )
 @Component
@@ -29,6 +29,7 @@ public class PagamentoMapperImpl implements PagamentoMapper {
         if ( request.getCpf() != null ) {
             processarPagamentoModel.setCpf( Long.parseLong( request.getCpf() ) );
         }
+        processarPagamentoModel.setParcelas( request.getParcelas() );
 
         return processarPagamentoModel;
     }
