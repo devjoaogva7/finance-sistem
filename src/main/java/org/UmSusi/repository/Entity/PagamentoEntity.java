@@ -2,8 +2,9 @@ package org.UmSusi.repository.Entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "pagamento")
@@ -12,27 +13,25 @@ public class PagamentoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double valor;
     private String status;
     private LocalDateTime datahora;
     private String formaPagamento;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OneToOne
     private ClienteEntity cliente;
     @OneToOne
     private EstabelecimentoEntity estabelecimento;
     private String cupom;
-    @ManyToOne
-    private Frete frete;
-    @OneToMany
-    private List<ProdutoEntity> pedidos;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private FreteEntity frete;
+    @OneToOne
+    private PedidoEntity pedido;
+    private BigDecimal valor;
 
     public PagamentoEntity() {
     }
 
-    public PagamentoEntity(Long id, Double valor, String status, LocalDateTime datahora, String formaPagamento, ClienteEntity cliente,
-                           EstabelecimentoEntity estabelecimento, String cupom, Frete frete, List<ProdutoEntity> pedidos) {
+    public PagamentoEntity(Long id, String status, LocalDateTime datahora, String formaPagamento, ClienteEntity cliente, EstabelecimentoEntity estabelecimento, String cupom, FreteEntity frete, PedidoEntity pedido, BigDecimal valor) {
         this.id = id;
-        this.valor = valor;
         this.status = status;
         this.datahora = datahora;
         this.formaPagamento = formaPagamento;
@@ -40,20 +39,12 @@ public class PagamentoEntity {
         this.estabelecimento = estabelecimento;
         this.cupom = cupom;
         this.frete = frete;
-        this.pedidos = pedidos;
+        this.pedido = pedido;
+        this.valor = valor;
     }
 
     public Long getId() {
         return id;
-    }
-
-
-    public Double getValor() {
-        return valor;
-    }
-
-    public void setValor(Double valor) {
-        this.valor = valor;
     }
 
     public String getStatus() {
@@ -88,11 +79,11 @@ public class PagamentoEntity {
         this.cliente = cliente;
     }
 
-    public EstabelecimentoEntity getEstabelecimentoEntity() {
+    public EstabelecimentoEntity getEstabelecimento() {
         return estabelecimento;
     }
 
-    public void setEstabelecimentoEntity(EstabelecimentoEntity estabelecimento) {
+    public void setEstabelecimento(EstabelecimentoEntity estabelecimento) {
         this.estabelecimento = estabelecimento;
     }
 
@@ -104,20 +95,46 @@ public class PagamentoEntity {
         this.cupom = cupom;
     }
 
-    public Frete getFrete() {
+    public FreteEntity getFrete() {
         return frete;
     }
 
-    public void setFrete(Frete frete) {
+    public void setFrete(FreteEntity frete) {
         this.frete = frete;
     }
 
-    public List<ProdutoEntity> getPedidos() {
-        return pedidos;
+    public PedidoEntity getPedido() {
+        return pedido;
     }
 
-    public void setPedidos(List<ProdutoEntity> pedidos) {
-        this.pedidos = pedidos;
+    public void setPedido(PedidoEntity pedido) {
+        this.pedido = pedido;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String formattedDate = datahora != null ? datahora.format(formatter) : "não disponível";
+
+        return "Dados do Pagamento: " +
+                "\n  - id: " + id +
+                "\n  - Status: " + status +
+                "\n  - Data e Hora: " + formattedDate +
+                "\n  - Forma de Pagamento: " + formaPagamento +
+                "\n  - Cliente: " + (cliente != null ? cliente.toString() : "não disponível") +
+                "\n  - Estabelecimento: " + (estabelecimento != null ? estabelecimento.toString() : "não disponível") +
+                "\n  - Cupom: " + (cupom != null ? cupom : "não disponível") +
+                "\n  - Frete: " + (frete != null ? frete.toString() : "não disponível") +
+                "\n  - Pedido: " + (pedido != null ? pedido.toString() : "não disponível") +
+                "\n  - Valor Total: R$ " + String.format("%.2f", valor);
     }
 }
 

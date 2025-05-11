@@ -1,44 +1,41 @@
 package org.UmSusi.model;
 
-import org.UmSusi.model.enuns.EnumFormaPagamento;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import org.UmSusi.interfaces.FormaPagamento;
+import org.UmSusi.repository.Entity.EstabelecimentoEntity;
+
+import java.io.ByteArrayOutputStream;
 
 public class PagamentoPix implements FormaPagamento {
-    private String chavePix;
-    private String qrCode;
+    private String chaveCopiaCola;
+    private byte[] imagemQrCode;
 
-    public PagamentoPix(String chavePix) {
-        this.chavePix = chavePix;
-        this.qrCode = gerarQrCode();
-    }
-
-    @Override
-    public boolean processarPagamento(double valor) {
-        // Aqui seria implementada a lógica real de processamento do PIX
-        // Por enquanto, vamos apenas simular um pagamento bem-sucedido
-        return true;
-    }
+//    public PagamentoPix(String chavePix) {
+//        this.chavePix = chavePix;
+//    }
+//
+//    public String getChavePix() {
+//        return chavePix;
+//    }
 
     @Override
-    public String gerarComprovante() {
-        return String.format("Comprovante PIX\nChave: %s\nQR Code: %s", chavePix, qrCode);
+    public void processar(String request) {
+
     }
 
-    @Override
-    public EnumFormaPagamento getTipoPagamento() {
-        return EnumFormaPagamento.PIX;
-    }
+    private byte[] gerarImagemQrCode() {
 
-    private String gerarQrCode() {
-        // Aqui seria implementada a geração real do QR Code
-        // Por enquanto, vamos retornar um valor simulado
-        return "00020126580014BR.GOV.BCB.PIX0136123e4567-e89b-12d3-a456-426614174000520400005303986540510.005802BR5913Teste%20Loja%206008BRASILIA62070503***6304E2CA";
-    }
+        EstabelecimentoEntity estabelecimento = new EstabelecimentoEntity();
 
-    public String getChavePix() {
-        return chavePix;
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            BitMatrix matrix = new QRCodeWriter().encode(estabelecimento.getPixCopiaCola(), BarcodeFormat.QR_CODE, 250, 250);
+            MatrixToImageWriter.writeToStream(matrix, "PNG", outputStream);
+            return outputStream.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao gerar imagem do QR Code", e);
+        }
     }
-
-    public String getQrCode() {
-        return qrCode;
-    }
-} 
+}

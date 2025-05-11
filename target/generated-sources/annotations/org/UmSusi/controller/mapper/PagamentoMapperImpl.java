@@ -1,26 +1,52 @@
 package org.UmSusi.controller.mapper;
 
 import javax.annotation.processing.Generated;
-import org.UmSusi.controller.dto.PagamentoRequestDTO;
-import org.UmSusi.repository.Entity.PagamentoEntity;
+import org.UmSusi.controller.dto.FinalizarPagamentoDTO;
+import org.UmSusi.controller.dto.ProcessarPagamentoDTO;
+import org.UmSusi.model.FinalizarPagamentoModel;
+import org.UmSusi.model.ProcessarPagamentoModel;
+import org.UmSusi.model.enuns.EnumConfirmacaoPagamento;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-04-28T20:36:15-0300",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.42.0.z20250331-1358, environment: Java 21.0.6 (Eclipse Adoptium)"
+    date = "2025-05-11T12:33:17-0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)"
 )
 @Component
 public class PagamentoMapperImpl implements PagamentoMapper {
 
     @Override
-    public PagamentoEntity toEntity(PagamentoRequestDTO pagamentoDTO) {
-        if ( pagamentoDTO == null ) {
+    public ProcessarPagamentoModel toPagamentoModel(ProcessarPagamentoDTO request) {
+        if ( request == null ) {
             return null;
         }
 
-        PagamentoEntity pagamentoEntity = new PagamentoEntity();
+        ProcessarPagamentoModel processarPagamentoModel = new ProcessarPagamentoModel();
 
-        return pagamentoEntity;
+        processarPagamentoModel.setFormaPagamento( request.getFormaPagamento() );
+        processarPagamentoModel.setCupom( request.getCupom() );
+        if ( request.getCpf() != null ) {
+            processarPagamentoModel.setCpf( Long.parseLong( request.getCpf() ) );
+        }
+
+        return processarPagamentoModel;
+    }
+
+    @Override
+    public FinalizarPagamentoModel toFinalizarModel(FinalizarPagamentoDTO request) {
+        if ( request == null ) {
+            return null;
+        }
+
+        Long idPagamento = null;
+        EnumConfirmacaoPagamento confirmacao = null;
+
+        idPagamento = request.getIdPagamento();
+        confirmacao = request.getConfirmacao();
+
+        FinalizarPagamentoModel finalizarPagamentoModel = new FinalizarPagamentoModel( idPagamento, confirmacao );
+
+        return finalizarPagamentoModel;
     }
 }

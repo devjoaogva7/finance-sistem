@@ -1,17 +1,27 @@
 package org.UmSusi.repository.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 
 @Entity
-public class Frete {
+@Table(name = "frete")
+public class FreteEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private BigDecimal preco;
-    private Integer quantidade;
+
+    public FreteEntity() {
+    }
+
+    public FreteEntity(Long id, String nome, BigDecimal preco) {
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+    }
 
     // Getters e Setters
 
@@ -39,11 +49,9 @@ public class Frete {
         this.preco = preco;
     }
 
-    public Integer getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
+    @Override
+    public String toString() {
+        return  "\n     - nome entregador: " + nome +
+                "\n     - preco: " + preco;
     }
 }
