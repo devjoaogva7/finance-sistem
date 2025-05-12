@@ -2,9 +2,9 @@ package org.UmSusi.model.enuns;
 
 public enum EnumFormaPagamento {
 
-    PIX("Pix"),
-    CARTAO_CREDITO("Cartão de Credito"),
-    CARTAO_DEBITO("Cartão de Debito");
+    PIX("PIX"),
+    CREDITO("CREDITO"),
+    DEBITO("DEBITO");
 
     private String descricao;
 

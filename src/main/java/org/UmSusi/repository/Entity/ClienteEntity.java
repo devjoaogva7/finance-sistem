@@ -18,25 +18,16 @@ public class ClienteEntity {
     @JoinColumn(name = "cartao")
     private List<CartaoEntity> cartao;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "cliente_pix",
-            joinColumns = @JoinColumn(name = "cliente_cpf")
-    )
-    @Column(name = "pix")
-    private List<String> pix;
-
     public ClienteEntity() {
     }
 
-    public ClienteEntity(Long cpf, String nome, String email, String telefone, String endereco, List<CartaoEntity> cartao, List<String> pix) {
+    public ClienteEntity(Long cpf, String nome, String email, String telefone, String endereco, List<CartaoEntity> cartao) {
         this.cpf = cpf;
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.endereco = endereco;
         this.cartao = cartao;
-        this.pix = pix;
     }
 
     public Long getCpf() {
@@ -87,11 +78,12 @@ public class ClienteEntity {
         this.cartao = cartao;
     }
 
-    public List<String> getPix() {
-        return pix;
-    }
-
-    public void setPix(List<String> pix) {
-        this.pix = pix;
+    @Override
+    public String toString() {
+        return  "\n     - cpf: " + cpf +
+                "\n     - nome: " + nome +
+                "\n     - email: " + email +
+                "\n     - telefone: " + telefone  +
+                "\n     - endereco: " + endereco;
     }
 }

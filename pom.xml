@@ -13,7 +13,7 @@
 
     <groupId>org.UmSusi</groupId>
     <artifactId>Um-Sushi</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
 
     <properties>
         <java.version>21</java.version>

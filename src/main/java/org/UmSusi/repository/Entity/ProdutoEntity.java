@@ -2,6 +2,8 @@ package org.UmSusi.repository.Entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 
 @Entity
 @Table(name = "produto")
@@ -11,14 +13,14 @@ public class ProdutoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private Double preco;
+    private BigDecimal preco;
     private Integer quantidade;
     private String descricao;
 
     public ProdutoEntity() {
     }
 
-    public ProdutoEntity(Long id, String nome, Double preco, Integer quantidade, String descricao) {
+    public ProdutoEntity(Long id, String nome, BigDecimal preco, Integer quantidade, String descricao) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
@@ -38,11 +40,11 @@ public class ProdutoEntity {
         this.nome = nome;
     }
 
-    public Double getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(Double preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 
@@ -60,5 +62,13 @@ public class ProdutoEntity {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    @Override
+    public String toString() {
+        return  "\n         - nome: " + nome +
+                "\n         - preco: " + preco +
+                "\n         - descricao: " + descricao +
+                "\n         - quantidade: " + quantidade;
     }
 }
