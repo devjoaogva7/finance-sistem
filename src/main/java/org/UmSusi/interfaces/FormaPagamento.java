@@ -1,6 +1,8 @@
 package org.UmSusi.interfaces;
 
+import org.UmSusi.repository.Entity.PagamentoEntity;
+
 public interface FormaPagamento {
 
-    void processar(String confirmacao);
+    void processar(PagamentoEntity pagamento);
 } 

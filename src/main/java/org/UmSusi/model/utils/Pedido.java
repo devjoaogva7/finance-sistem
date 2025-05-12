@@ -1,4 +1,4 @@
-package org.UmSusi.model;
+package org.UmSusi.model.utils;
 
 import org.UmSusi.repository.Entity.FreteEntity;
 import org.UmSusi.repository.Entity.PedidoEntity;
@@ -6,7 +6,7 @@ import org.UmSusi.repository.Entity.ProdutoEntity;
 
 import java.math.BigDecimal;
 
-public class PedidoModel {
+public class Pedido {
 
     public static BigDecimal calcularValorTotalPedido(PedidoEntity pedido, FreteEntity frete) {
         BigDecimal valor = BigDecimal.ZERO;
