@@ -1,30 +1,17 @@
 package org.UmSusi.controller.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.UmSusi.model.enuns.EnumConfirmacaoPagamento;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class FinalizarPagamentoDTO {
 
     private Long idPagamento;
     private EnumConfirmacaoPagamento confirmacao;
-
-    public FinalizarPagamentoDTO(Long idPagamento, EnumConfirmacaoPagamento confirmacao) {
-        this.idPagamento = idPagamento;
-        this.confirmacao = confirmacao;
-    }
-
-    public Long getIdPagamento() {
-        return idPagamento;
-    }
-
-    public void setIdPagamento(Long idPagamento) {
-        this.idPagamento = idPagamento;
-    }
-
-    public EnumConfirmacaoPagamento getConfirmacao() {
-        return confirmacao;
-    }
-
-    public void setConfirmacao(EnumConfirmacaoPagamento confirmacao) {
-        this.confirmacao = confirmacao;
-    }
 }
