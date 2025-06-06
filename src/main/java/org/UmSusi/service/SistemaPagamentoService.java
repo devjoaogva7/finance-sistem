@@ -66,7 +66,7 @@ public class SistemaPagamentoService {
 
             if (pagamento.getFormaPagamento().equals(EnumFormaPagamento.CREDITO.getDescricao())) {
                 pagamentoCredito.processar(pagamento);
-            } else if (pagamento.getFormaPagamento().equals(EnumFormaPagamento.DEBITO.getDescricao())){
+            } else if (pagamento.getFormaPagamento().equals(EnumFormaPagamento.DEBITO.getDescricao())) {
                 pagamentoDebito.processar(pagamento);
             } else if (pagamento.getFormaPagamento().equals(EnumFormaPagamento.PIX.getDescricao())) {
                 pagamentoPix.processar(pagamento);

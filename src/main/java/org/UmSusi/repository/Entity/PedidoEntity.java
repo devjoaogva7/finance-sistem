@@ -1,9 +1,17 @@
 package org.UmSusi.repository.Entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "pedido")
 public class PedidoEntity {
@@ -19,47 +27,9 @@ public class PedidoEntity {
     private ClienteEntity cliente;
     private Double valor;
 
-    public PedidoEntity() {
-    }
-
-    public PedidoEntity(Long id, List<ProdutoEntity> produtoEntities, ClienteEntity cliente, Double valor) {
-        this.id = id;
-        this.produtoEntities = produtoEntities;
-        this.cliente = cliente;
-        this.valor = valor;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public List<ProdutoEntity> getProdutoEntities() {
-        return produtoEntities;
-    }
-
-    public void setProdutoEntities(List<ProdutoEntity> produtoEntities) {
-        this.produtoEntities = produtoEntities;
-    }
-
-    public ClienteEntity getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(ClienteEntity cliente) {
-        this.cliente = cliente;
-    }
-
-    public Double getValor() {
-        return valor;
-    }
-
-    public void setValor(Double valor) {
-        this.valor = valor;
-    }
-
     @Override
     public String toString() {
-        return  "\n     - produtos: " + produtoEntities +
+        return "\n     - produtos: " + produtoEntities +
                 "\n     - valor: " + valor;
     }
 }

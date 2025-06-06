@@ -1,12 +1,20 @@
 package org.UmSusi.repository.Entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "pagamento")
 public class PagamentoEntity {
@@ -28,108 +36,6 @@ public class PagamentoEntity {
     private PedidoEntity pedido;
     private BigDecimal valor;
     private Integer parcelas;
-
-    public PagamentoEntity() {
-    }
-
-    public PagamentoEntity(Long id, String status, LocalDateTime datahora, String formaPagamento, ClienteEntity cliente, EstabelecimentoEntity estabelecimento, String cupom,
-                           FreteEntity frete, PedidoEntity pedido, BigDecimal valor, Integer parcelas) {
-        this.id = id;
-        this.status = status;
-        this.datahora = datahora;
-        this.formaPagamento = formaPagamento;
-        this.cliente = cliente;
-        this.estabelecimento = estabelecimento;
-        this.cupom = cupom;
-        this.frete = frete;
-        this.pedido = pedido;
-        this.valor = valor;
-        this.parcelas = parcelas;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getDatahora() {
-        return datahora;
-    }
-
-    public void setDatahora(LocalDateTime datahora) {
-        this.datahora = datahora;
-    }
-
-    public String getFormaPagamento() {
-        return formaPagamento;
-    }
-
-    public void setFormaPagamento(String formaPagamento) {
-        this.formaPagamento = formaPagamento;
-    }
-
-    public ClienteEntity getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(ClienteEntity cliente) {
-        this.cliente = cliente;
-    }
-
-    public EstabelecimentoEntity getEstabelecimento() {
-        return estabelecimento;
-    }
-
-    public void setEstabelecimento(EstabelecimentoEntity estabelecimento) {
-        this.estabelecimento = estabelecimento;
-    }
-
-    public String getCupom() {
-        return cupom;
-    }
-
-    public void setCupom(String cupom) {
-        this.cupom = cupom;
-    }
-
-    public FreteEntity getFrete() {
-        return frete;
-    }
-
-    public void setFrete(FreteEntity frete) {
-        this.frete = frete;
-    }
-
-    public PedidoEntity getPedido() {
-        return pedido;
-    }
-
-    public void setPedido(PedidoEntity pedido) {
-        this.pedido = pedido;
-    }
-
-    public BigDecimal getValor() {
-        return valor;
-    }
-
-    public void setValor(BigDecimal valor) {
-        this.valor = valor;
-    }
-
-    public Integer getParcelas() {
-        return parcelas;
-    }
-
-    public void setParcelas(Integer parcelas) {
-        this.parcelas = parcelas;
-    }
 
     public String comprovante() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
