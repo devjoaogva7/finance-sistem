@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 @Component
-public class EstabelecimentoCommandLineRunner  implements CommandLineRunner {
+public class EstabelecimentoCommandLineRunner implements CommandLineRunner {
 
 
     private final EstabelecimentoRepository estabelecimentoRepository;
