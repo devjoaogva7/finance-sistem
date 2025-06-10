@@ -12,14 +12,3 @@ INSERT INTO produto (nome, preco, quantidade, descricao) VALUES
 
 -- Inserir frete
 INSERT INTO frete(nome, preco) VALUES ('Mario Kart', 20.00);
-
--- Inserir cliente
-INSERT INTO cliente (cpf, nome, endereco) VALUES ('12345678900', 'João Silva', 'Rua A, 123');
-
--- Inserir pedido
-INSERT INTO pedido (id, cliente_cpf, valor) VALUES (1, '12345678900', 250.0);
-
--- Associar produtos ao pedido (supondo que o relacionamento entre pedido e produto seja feito por 'pedido_id' em produto)
-UPDATE produto SET pedido_id = 1 WHERE nome IN ('hot crispy poro', 'poke', 'rolinho primavera');
-UPDATE produto SET pedido_id = 1 WHERE nome = 'combinado 00';
-UPDATE produto SET pedido_id = 1 WHERE nome = 'combinado especial hot';
