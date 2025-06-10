@@ -73,6 +73,7 @@ public class PagamentoService implements SalvarCartaoUserCase, ProcessarPagament
         return valor;
     }
 
+    //TODO adequuar a função para o tipo de pagamento se for pix deve mostra o QRcode no response, se for credito ou debito deve validar o CVV do cartao ajustar a request para aceitar o CVV
     @Override
     public String finalizarPagamento(FinalizarPagamento request) {
 //        PagamentoCredito pagamentoCredito = new PagamentoCredito();
