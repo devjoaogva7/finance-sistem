@@ -68,7 +68,7 @@ public interface RepositoryMapper {
     @Mapping(target = "parcelas", source = "request.parcelas")
     PagamentoEntity toSavePagamentoEntity(ProcessarPagamento request, BigDecimal valorTotal, Cliente cliente,
                                           Estabelecimento estabelecimento, Frete frete, Pedido pedido);
-//TODO Concer
+//TODO Concertar
 //    @Mapping(target = "cliente", source = "cliente")
 //    @Mapping(target = "produtos", source = "produtos")
 //    @Mapping(target = "valor", source = "valor")

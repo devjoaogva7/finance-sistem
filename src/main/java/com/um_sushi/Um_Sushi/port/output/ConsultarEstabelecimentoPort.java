@@ -8,7 +8,7 @@ public interface ConsultarEstabelecimentoPort {
 
     Estabelecimento buscarDadosEstabelicentoPorId(Long id);
 
-    Pedido buscarPedidoPorCpfCliente(Long cpf);
+    Pedido buscarPedidoPorId(Long id);
 
     Frete buscarFretePorId(Long idFreteValorUnico);
 }

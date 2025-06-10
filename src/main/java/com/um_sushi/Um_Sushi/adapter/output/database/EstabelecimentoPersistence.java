@@ -1,6 +1,7 @@
 package com.um_sushi.Um_Sushi.adapter.output.database;
 
 import com.um_sushi.Um_Sushi.adapter.output.database.mapper.RepositoryMapper;
+import com.um_sushi.Um_Sushi.adapter.output.database.repository.EstabelecimentoRepository;
 import com.um_sushi.Um_Sushi.adapter.output.database.repository.FreteRepository;
 import com.um_sushi.Um_Sushi.adapter.output.database.repository.PagamentoRepository;
 import com.um_sushi.Um_Sushi.domain.model.Estabelecimento;
@@ -22,6 +23,8 @@ public class EstabelecimentoPersistence implements ConsultarEstabelecimentoPort,
     @Autowired
     private PagamentoRepository pagamentoRepository;
     @Autowired
+    private EstabelecimentoRepository estabelecimentoRepository;
+    @Autowired
     private EntityManager entityManager;
     private RepositoryMapper mapper;
 
@@ -35,16 +38,21 @@ public class EstabelecimentoPersistence implements ConsultarEstabelecimentoPort,
 
     @Override
     public Estabelecimento buscarDadosEstabelicentoPorId(Long id) {
+
+        //TODO buscar estabelecimento com findFirstByOrderByCnpjAsc() do repositorio de estabelecimento
         return null;
     }
 
     @Override
-    public Pedido buscarPedidoPorCpfCliente(Long cpf) {
+    public Pedido buscarPedidoPorId(Long id) {
+        //Todo implementar
         return null;
     }
+
 
     @Override
     public Frete buscarFretePorId(Long idFreteValorUnico) {
+        //TODO buscar estabelecimento com findFirstByOrderByCnpjAsc() do repositorio de estabelecimento
         return null;
     }
 }
