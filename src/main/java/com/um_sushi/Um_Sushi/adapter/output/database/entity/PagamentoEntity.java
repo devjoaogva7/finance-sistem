@@ -41,8 +41,8 @@ public class PagamentoEntity {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
         StringBuilder itensPedido = new StringBuilder();
-        if (pedido != null && pedido.getProdutoEntities() != null) {
-            for (ProdutoEntity produto : pedido.getProdutoEntities()) {
+        if (pedido != null && pedido.getProdutos() != null) {
+            for (ProdutoEntity produto : pedido.getProdutos()) {
                 itensPedido.append(produto.getNome())
                         .append(" - R$ ").append(String.format("%.2f", produto.getPreco()))
                         .append("\n");

@@ -1,8 +1,6 @@
 package com.um_sushi.Um_Sushi.adapter.output.database.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +14,11 @@ import lombok.Setter;
 @Table(name = "endereco")
 public class EnderecoEntity {
 
-    private String rua;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String rua;
     private Integer numero;
     private Integer cep;
     private String cidade;

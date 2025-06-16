@@ -14,17 +14,5 @@ public class Pedido {
 
     private Cliente cliente;
     private List<Produto> produtos;
-    private Double valor;
-
-    @Getter
-    @Setter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Produto {
-        private String nome;
-        private BigDecimal preco;
-        private Integer quantidade;
-        private String descricao;
-    }
+    private BigDecimal valor;
 }

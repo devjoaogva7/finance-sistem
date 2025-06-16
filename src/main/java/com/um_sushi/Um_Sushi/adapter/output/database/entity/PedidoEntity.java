@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,9 +20,11 @@ public class PedidoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany
-    @JoinColumn(name = "pedido_id")
-    private List<ProdutoEntity> produtoEntities;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "pedido_produtos",
+            joinColumns = @JoinColumn(name = "pedido_entity_id"),
+            inverseJoinColumns = @JoinColumn(name = "produtos_id"))
+    private Set<ProdutoEntity> produtos = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "cliente_cpf")
     private ClienteEntity cliente;
@@ -29,7 +32,7 @@ public class PedidoEntity {
 
     @Override
     public String toString() {
-        return "\n     - produtos: " + produtoEntities +
+        return "\n     - produtos: " + produtos +
                 "\n     - valor: " + valor;
     }
 }

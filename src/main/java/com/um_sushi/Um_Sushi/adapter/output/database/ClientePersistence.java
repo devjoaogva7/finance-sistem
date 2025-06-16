@@ -37,7 +37,7 @@ public class ClientePersistence implements SalvarClientePort, ConsultarClientePo
 
     @Override
     public Optional<Cliente> buscarPorCpf(Long cpf) {
-        return repository.findById(cpf).map(mapper::toClienteModelo);
+        return repository.findById(cpf).map(mapper::toClienteModel);
     }
 
     @Override

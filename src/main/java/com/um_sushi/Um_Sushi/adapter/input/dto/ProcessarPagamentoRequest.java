@@ -14,5 +14,5 @@ public class ProcessarPagamentoRequest {
     private EnumFormaPagamento formaPagamento;
     private Integer parcelas;
     private EnumCuponsDisponiveis cupom;
-    private String cpf;
+    private Long cpf;
 }

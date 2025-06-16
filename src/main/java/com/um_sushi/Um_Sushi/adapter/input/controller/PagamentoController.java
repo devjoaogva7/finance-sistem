@@ -50,7 +50,7 @@ public class PagamentoController {
         return ResponseEntity.status(HttpStatus.OK).body(ProcessarPagamentoResponse.builder().menssagem(m).build());
     }
 
-    @PostMapping("/finalizar-pagamento")
+    @PostMapping("/finalizar")
     public ResponseEntity<String> finalizarPagamento(@RequestBody FinalizarPagamentoRequest request) {
         LOGGER.info("Dados de confirmação do pagamento: " + request);
 

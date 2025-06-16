@@ -14,6 +14,7 @@ public class ClienteCadastro {
     private String email;
     private String telefone;
     private Endereco endereco;
+    private Cartao cartao;
 
     @Getter
     @Setter
@@ -21,6 +22,7 @@ public class ClienteCadastro {
     @Builder
     @AllArgsConstructor
     public static class Endereco {
+        private Long id;
         private String rua;
         private Integer numero;
         private Integer cep;

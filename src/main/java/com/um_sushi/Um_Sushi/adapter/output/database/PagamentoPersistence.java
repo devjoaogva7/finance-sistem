@@ -43,7 +43,10 @@ public class PagamentoPersistence implements SalvarCartaoPort, ProcessarPagament
     @Override
     public String salvar(ProcessarPagamento request, BigDecimal valorTotal, Cliente cliente, Estabelecimento estabelecimento, Frete frete, Pedido pedido) {
 
+
         PagamentoEntity pagamento = mapper.toSavePagamentoEntity(request, valorTotal, cliente, estabelecimento, frete, pedido);
+        PedidoEntity pedidoGerenciado = entityManager.merge(mapper.toSavePedidoEntity(pedido));
+        pagamento.setPedido(pedidoGerenciado);
         entityManager.persist(pagamento);
 
         return "Pagamento processado com ID: " + pagamento.getId() + ". Status: \"PENDENTE\", aguardando confirmação.";

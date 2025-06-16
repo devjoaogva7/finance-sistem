@@ -31,7 +31,5 @@ public class PedidoRequest {
     @AllArgsConstructor
     public static class ClienteRequest {
         private Long cpf;
-        private String nome;
-        private String telefone;
     }
 }

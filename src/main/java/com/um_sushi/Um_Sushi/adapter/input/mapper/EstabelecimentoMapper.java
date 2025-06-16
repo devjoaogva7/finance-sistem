@@ -13,6 +13,8 @@ import org.mapstruct.*;
 )
 public interface EstabelecimentoMapper {
 
+    @Mapping(target = "cliente", source = "cliente")
+    @Mapping(target = "produtos", source = "produtos")
     Pedido toPedidoRequest(PedidoRequest request);
 
     PedidoResponse toPedidoResponse(Pedido response);

@@ -12,32 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 public class PedidoResponse {
 
-    private ClienteResponse cliente;
-    private List<ProdutoResponse> produtos;
-    private Double valor;
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @Builder
-    @AllArgsConstructor
-    public static class ClienteResponse {
-        private Long cpf;
-        private String nome;
-    }
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @Builder
-    @AllArgsConstructor
-    public static class ProdutoResponse {
-
-        private Long id;
-        private String nome;
-        private BigDecimal preco;
-        private Integer quantidade;
-        private String descricao;
-    }
-
+    private String id;
 }

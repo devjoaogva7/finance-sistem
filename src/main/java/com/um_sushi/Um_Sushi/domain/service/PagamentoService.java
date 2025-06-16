@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +42,7 @@ public class PagamentoService implements SalvarCartaoUserCase, ProcessarPagament
     }
 
     @Override
+    @Transactional
     public String processarPagamento(ProcessarPagamento request) {
         if (request.getFormaPagamento().equals(EnumFormaPagamento.CREDITO) && request.getParcelas() == null) {
             throw new IllegalArgumentException("Forma de pagamento CREDITO precisa de parcelas definidas.");
@@ -54,23 +54,13 @@ public class PagamentoService implements SalvarCartaoUserCase, ProcessarPagament
         Cliente cliente = consultarClientePort.buscarPorCpf(request.getCpf())
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com CPF: " + request.getCpf()));
 
-        Estabelecimento estabelecimento = consultarEstabelecimentoPort.buscarDadosEstabelicentoPorId(ID_ESTABELECIMENTO);
-        Pedido pedido = consultarEstabelecimentoPort.buscarPedidoPorCpfCliente(cliente.getCpf());
-        Frete frete = consultarEstabelecimentoPort.buscarFretePorId(ID_FRETE_VALOR_UNICO);
+        Estabelecimento estabelecimento = consultarEstabelecimentoPort.buscarDadosEstabelicentoPorId(ID_ESTABELECIMENTO).orElseThrow(() -> new RuntimeException("Estabelecimento não encontrado"));
+        Pedido pedido = consultarEstabelecimentoPort.buscarPedidoPorCpfCliente(cliente.getCpf()).orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+        Frete frete = consultarEstabelecimentoPort.buscarFretePorId(ID_FRETE_VALOR_UNICO).orElseThrow(() -> new RuntimeException("Frete não encontrado"));
 
-        BigDecimal valorTotal = calcularValorTotalPedido(pedido.getProdutos(), frete.getPreco());
+        BigDecimal valorTotal = calcularValorTotalPedido(pedido.getValor(), frete.getPreco());
 
         return processarPagamentoPort.salvar(request, valorTotal, cliente, estabelecimento, frete, pedido);
-    }
-
-    private BigDecimal calcularValorTotalPedido(List<Pedido.Produto> produtos, BigDecimal frete) {
-        BigDecimal valor = BigDecimal.ZERO;
-
-        for (Pedido.Produto produto : produtos) {
-            valor = valor.add(produto.getPreco().multiply(BigDecimal.valueOf(produto.getQuantidade()))).add(frete);
-        }
-
-        return valor;
     }
 
     //TODO adequuar a função para o tipo de pagamento se for pix deve mostra o QRcode no response, se for credito ou debito deve validar o CVV do cartao ajustar a request para aceitar o CVV
@@ -102,6 +92,12 @@ public class PagamentoService implements SalvarCartaoUserCase, ProcessarPagament
 //        var pFinalizado = pagamentoRepository.save(pagamento);
 //
 //        return pFinalizado.comprovante();
-        return  null;
+        return null;
+    }
+
+    private BigDecimal calcularValorTotalPedido(BigDecimal valorPedido, BigDecimal valorFrete) {
+
+        BigDecimal valor = valorPedido.add(valorFrete);
+        return valor;
     }
 }
