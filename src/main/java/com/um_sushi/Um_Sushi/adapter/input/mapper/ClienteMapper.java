@@ -1,6 +1,6 @@
 package com.um_sushi.Um_Sushi.adapter.input.mapper;
 
-import com.um_sushi.Um_Sushi.adapter.input.dto.ClienteCadastroRequest;
+import com.um_sushi.Um_Sushi.adapter.input.dto.requets.ClienteCadastroRequest;
 import com.um_sushi.Um_Sushi.domain.model.ClienteCadastro;
 import org.mapstruct.*;
 

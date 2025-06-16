@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -51,16 +52,15 @@ public class PagamentoService implements SalvarCartaoUserCase, ProcessarPagament
             request.setParcelas(1);
         }
 
-        Cliente cliente = consultarClientePort.buscarPorCpf(request.getCpf())
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com CPF: " + request.getCpf()));
+        Optional<Cliente> cliente = consultarClientePort.buscarPorCpf(request.getCpf());
 
         Estabelecimento estabelecimento = consultarEstabelecimentoPort.buscarDadosEstabelicentoPorId(ID_ESTABELECIMENTO).orElseThrow(() -> new RuntimeException("Estabelecimento não encontrado"));
-        Pedido pedido = consultarEstabelecimentoPort.buscarPedidoPorCpfCliente(cliente.getCpf()).orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+        Pedido pedido = consultarEstabelecimentoPort.buscarPedidoPorCpfCliente(cliente.get().getCpf()).orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
         Frete frete = consultarEstabelecimentoPort.buscarFretePorId(ID_FRETE_VALOR_UNICO).orElseThrow(() -> new RuntimeException("Frete não encontrado"));
 
         BigDecimal valorTotal = calcularValorTotalPedido(pedido.getValor(), frete.getPreco());
 
-        return processarPagamentoPort.salvar(request, valorTotal, cliente, estabelecimento, frete, pedido);
+        return processarPagamentoPort.salvar(request, valorTotal, cliente.orElse(null), estabelecimento, frete, pedido);
     }
 
     //TODO adequuar a função para o tipo de pagamento se for pix deve mostra o QRcode no response, se for credito ou debito deve validar o CVV do cartao ajustar a request para aceitar o CVV
@@ -96,7 +96,6 @@ public class PagamentoService implements SalvarCartaoUserCase, ProcessarPagament
     }
 
     private BigDecimal calcularValorTotalPedido(BigDecimal valorPedido, BigDecimal valorFrete) {
-
         BigDecimal valor = valorPedido.add(valorFrete);
         return valor;
     }

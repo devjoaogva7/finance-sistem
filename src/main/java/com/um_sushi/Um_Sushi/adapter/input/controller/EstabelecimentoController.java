@@ -1,9 +1,9 @@
 package com.um_sushi.Um_Sushi.adapter.input.controller;
 
 
-import com.um_sushi.Um_Sushi.adapter.input.dto.PedidoRequest;
-import com.um_sushi.Um_Sushi.adapter.input.dto.PedidoResponse;
-import com.um_sushi.Um_Sushi.adapter.input.dto.ProdutoResponse;
+import com.um_sushi.Um_Sushi.adapter.input.dto.requets.PedidoRequest;
+import com.um_sushi.Um_Sushi.adapter.input.dto.responses.PedidoResponse;
+import com.um_sushi.Um_Sushi.adapter.input.dto.responses.ProdutoResponse;
 import com.um_sushi.Um_Sushi.adapter.input.mapper.EstabelecimentoMapper;
 import com.um_sushi.Um_Sushi.port.input.ConsultarEstabelecimentoUserCase;
 import com.um_sushi.Um_Sushi.port.input.SalvarEstabelecimentoUserCase;

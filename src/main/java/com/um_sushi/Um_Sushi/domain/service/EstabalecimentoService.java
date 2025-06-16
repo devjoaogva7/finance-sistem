@@ -2,6 +2,7 @@ package com.um_sushi.Um_Sushi.domain.service;
 
 import com.um_sushi.Um_Sushi.domain.model.Pedido;
 import com.um_sushi.Um_Sushi.domain.model.Produto;
+import com.um_sushi.Um_Sushi.port.input.ConsultarClienteUserCase;
 import com.um_sushi.Um_Sushi.port.input.ConsultarEstabelecimentoUserCase;
 import com.um_sushi.Um_Sushi.port.input.SalvarEstabelecimentoUserCase;
 import com.um_sushi.Um_Sushi.port.output.ConsultarEstabelecimentoPort;
@@ -19,10 +20,12 @@ public class EstabalecimentoService implements SalvarEstabelecimentoUserCase, Co
 
     private final SalvarEstabelecimentoPort salvarEstabelecimentoPort;
     private final ConsultarEstabelecimentoPort consultarEstabelecimentoPort;
+    private final ConsultarClienteUserCase consultarClienteUserCase;
 
     @Override
     @Transactional
     public String salvarPedido(Pedido request) {
+        consultarClienteUserCase.buscarPorCpf(request.getCliente().getCpf());
         request.setValor(calcularProdutos(request));
         return salvarEstabelecimentoPort.salvarPedido(request);
     }

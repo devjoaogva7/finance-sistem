@@ -1,9 +1,6 @@
-package com.um_sushi.Um_Sushi.adapter.input.dto;
+package com.um_sushi.Um_Sushi.adapter.input.dto.responses;
 
 import lombok.*;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 @Getter
 @Setter

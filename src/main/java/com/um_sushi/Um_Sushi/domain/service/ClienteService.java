@@ -34,7 +34,7 @@ public class ClienteService implements SalvarClienteUserCase, ConsultarClienteUs
 
     @Override
     public Optional<Cliente> buscarPorCpf(Long cpf) {
-        return consultarClientePort.buscarPorCpf(cpf);
+       return Optional.ofNullable(consultarClientePort.buscarPorCpf(cpf).orElseThrow(() -> new RuntimeException("Cliente não encontrado, com o cpf: " + cpf)));
     }
 
     @Override

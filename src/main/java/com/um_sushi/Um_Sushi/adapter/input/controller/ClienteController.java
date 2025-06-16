@@ -1,7 +1,7 @@
 package com.um_sushi.Um_Sushi.adapter.input.controller;
 
-import com.um_sushi.Um_Sushi.adapter.input.dto.ClienteCadastroRequest;
-import com.um_sushi.Um_Sushi.adapter.input.dto.ClienteCadastroResponse;
+import com.um_sushi.Um_Sushi.adapter.input.dto.requets.ClienteCadastroRequest;
+import com.um_sushi.Um_Sushi.adapter.input.dto.responses.ClienteCadastroResponse;
 import com.um_sushi.Um_Sushi.adapter.input.mapper.ClienteMapper;
 import com.um_sushi.Um_Sushi.port.input.SalvarClienteUserCase;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +35,4 @@ public class ClienteController {
 
         return ResponseEntity.status(HttpStatus.OK).body(ClienteCadastroResponse.builder().menssagem(menssagem).build());
     }
-
-
 }

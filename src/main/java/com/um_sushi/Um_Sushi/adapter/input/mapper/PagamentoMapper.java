@@ -1,8 +1,8 @@
 package com.um_sushi.Um_Sushi.adapter.input.mapper;
 
-import com.um_sushi.Um_Sushi.adapter.input.dto.CartaoRequest;
-import com.um_sushi.Um_Sushi.adapter.input.dto.FinalizarPagamentoRequest;
-import com.um_sushi.Um_Sushi.adapter.input.dto.ProcessarPagamentoRequest;
+import com.um_sushi.Um_Sushi.adapter.input.dto.requets.CartaoRequest;
+import com.um_sushi.Um_Sushi.adapter.input.dto.requets.FinalizarPagamentoRequest;
+import com.um_sushi.Um_Sushi.adapter.input.dto.requets.ProcessarPagamentoRequest;
 import com.um_sushi.Um_Sushi.domain.model.Cartao;
 import com.um_sushi.Um_Sushi.domain.model.FinalizarPagamento;
 import com.um_sushi.Um_Sushi.domain.model.ProcessarPagamento;

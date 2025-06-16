@@ -1,4 +1,4 @@
-package com.um_sushi.Um_Sushi.adapter.input.dto;
+package com.um_sushi.Um_Sushi.adapter.input.dto.responses;
 
 import lombok.*;
 

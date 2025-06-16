@@ -1,9 +1,9 @@
 package com.um_sushi.Um_Sushi.adapter.input.controller;
 
-import com.um_sushi.Um_Sushi.adapter.input.dto.CartaoRequest;
-import com.um_sushi.Um_Sushi.adapter.input.dto.FinalizarPagamentoRequest;
-import com.um_sushi.Um_Sushi.adapter.input.dto.ProcessarPagamentoRequest;
-import com.um_sushi.Um_Sushi.adapter.input.dto.ProcessarPagamentoResponse;
+import com.um_sushi.Um_Sushi.adapter.input.dto.requets.CartaoRequest;
+import com.um_sushi.Um_Sushi.adapter.input.dto.requets.FinalizarPagamentoRequest;
+import com.um_sushi.Um_Sushi.adapter.input.dto.requets.ProcessarPagamentoRequest;
+import com.um_sushi.Um_Sushi.adapter.input.dto.responses.ProcessarPagamentoResponse;
 import com.um_sushi.Um_Sushi.adapter.input.mapper.PagamentoMapper;
 import com.um_sushi.Um_Sushi.port.input.FinalizarPagamentoUserCase;
 import com.um_sushi.Um_Sushi.port.input.ProcessarPagamentoUserCase;
@@ -58,5 +58,4 @@ public class PagamentoController {
                 finalizarPagamentoUserCase.finalizarPagamento(mapper.toFinalizarPagamentoRequest(request))
         );
     }
-
 }
