@@ -3,7 +3,9 @@ package com.um_sushi.Um_Sushi.adapter.input.controller;
 
 import com.um_sushi.Um_Sushi.adapter.input.dto.PedidoRequest;
 import com.um_sushi.Um_Sushi.adapter.input.dto.PedidoResponse;
+import com.um_sushi.Um_Sushi.adapter.input.dto.ProdutoResponse;
 import com.um_sushi.Um_Sushi.adapter.input.mapper.EstabelecimentoMapper;
+import com.um_sushi.Um_Sushi.port.input.ConsultarEstabelecimentoUserCase;
 import com.um_sushi.Um_Sushi.port.input.SalvarEstabelecimentoUserCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -11,10 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Log4j2
 @RestController
@@ -25,6 +26,7 @@ public class EstabelecimentoController {
     private static final Logger LOGGER = LoggerFactory.getLogger(EstabelecimentoController.class);
 
     private final SalvarEstabelecimentoUserCase salvarEstabelecimentoUserCase;
+    private final ConsultarEstabelecimentoUserCase consultasEstabelecimentoUserCase;
 
     private final EstabelecimentoMapper mapper;
 
@@ -36,5 +38,11 @@ public class EstabelecimentoController {
                 .salvarPedido(mapper.toPedidoRequest(request));
 
         return ResponseEntity.status(HttpStatus.OK).body(PedidoResponse.builder().id(id).build());
+    }
+
+    @GetMapping("/produtos")
+    public ResponseEntity<List<ProdutoResponse>> listarProdutos() {
+        return ResponseEntity.status(HttpStatus.OK).body(mapper.toListProdutos(
+                consultasEstabelecimentoUserCase.consultarProdutos()));
     }
 }

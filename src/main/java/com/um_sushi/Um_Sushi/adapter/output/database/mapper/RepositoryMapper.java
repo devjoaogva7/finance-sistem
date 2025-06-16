@@ -5,6 +5,7 @@ import com.um_sushi.Um_Sushi.domain.model.*;
 import org.mapstruct.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
@@ -78,12 +79,14 @@ public interface RepositoryMapper {
     @Mapping(target = "valor", source = "valor")
     Pedido toPedidoModel(PedidoEntity byClienteCpf);
 
+    Produto toProdutoModel(ProdutoEntity byNome);
+
+    List<Produto> toListProdutosModel(List<ProdutoEntity> all);
+
     @Mapping(target = "cartao.numero", source = "numero")
     @Mapping(target = "cartao.nomeTitular", source = "nomeTitular")
     @Mapping(target = "cartao.validade", source = "validade")
     @Mapping(target = "cartao.cvv", source = "cvv")
     @Mapping(target = "cartao.bandeira", source = "bandeira")
     void updateCartaoClienteEntity(Cartao cartao, @MappingTarget ClienteEntity entity);
-
-    Produto toProdutoModel(ProdutoEntity byNome);
 }

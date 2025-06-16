@@ -5,6 +5,7 @@ import com.um_sushi.Um_Sushi.domain.model.Frete;
 import com.um_sushi.Um_Sushi.domain.model.Pedido;
 import com.um_sushi.Um_Sushi.domain.model.Produto;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ConsultarEstabelecimentoPort {
@@ -16,4 +17,6 @@ public interface ConsultarEstabelecimentoPort {
     Optional<Pedido> buscarPedidoPorCpfCliente(Long cpf);
 
     Optional<Produto> buscarProdutoPeloNome(String nome);
+
+    List<Produto> consultarProdutos();
 }

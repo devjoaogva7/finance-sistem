@@ -11,10 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class EstabalecimentoService implements SalvarEstabelecimentoUserCase {
+public class EstabalecimentoService implements SalvarEstabelecimentoUserCase, ConsultarEstabelecimentoUserCase {
 
     private final SalvarEstabelecimentoPort salvarEstabelecimentoPort;
     private final ConsultarEstabelecimentoPort consultarEstabelecimentoPort;
@@ -33,5 +34,10 @@ public class EstabalecimentoService implements SalvarEstabelecimentoUserCase {
             valorTotal = valorTotal.add(produto.getPreco().multiply(BigDecimal.valueOf(p.getQuantidade())));
         }
         return valorTotal;
+    }
+
+    @Override
+    public List<Produto> consultarProdutos() {
+        return consultarEstabelecimentoPort.consultarProdutos();
     }
 }

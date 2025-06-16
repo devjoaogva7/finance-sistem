@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -62,5 +63,10 @@ public class EstabelecimentoPersistence implements ConsultarEstabelecimentoPort,
     @Override
     public Optional<Produto> buscarProdutoPeloNome(String nome) {
         return Optional.ofNullable(mapper.toProdutoModel(produtoRepository.findByNome(nome)));
+    }
+
+    @Override
+    public List<Produto> consultarProdutos() {
+        return mapper.toListProdutosModel(produtoRepository.findAll());
     }
 }
