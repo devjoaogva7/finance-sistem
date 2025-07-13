@@ -1,12 +1,12 @@
 package com.um_sushi.Um_Sushi.adapter.input.controller;
 
-
 import com.um_sushi.Um_Sushi.adapter.input.dto.requets.PedidoRequest;
 import com.um_sushi.Um_Sushi.adapter.input.dto.responses.PedidoResponse;
 import com.um_sushi.Um_Sushi.adapter.input.dto.responses.ProdutoResponse;
 import com.um_sushi.Um_Sushi.adapter.input.mapper.EstabelecimentoMapper;
 import com.um_sushi.Um_Sushi.port.input.ConsultarEstabelecimentoUserCase;
 import com.um_sushi.Um_Sushi.port.input.SalvarEstabelecimentoUserCase;
+import jakarta.validation.Valid; // Adicionar este import
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ public class EstabelecimentoController {
     private final EstabelecimentoMapper mapper;
 
     @PostMapping("/pedido")
-    public ResponseEntity<PedidoResponse> salvarPedido(@RequestBody PedidoRequest request) {
+    public ResponseEntity<PedidoResponse> salvarPedido(@Valid @RequestBody PedidoRequest request) {
         LOGGER.info("Fazendo pedido: " + request);
 
         String id = salvarEstabelecimentoUserCase
