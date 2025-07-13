@@ -8,6 +8,7 @@ import com.um_sushi.Um_Sushi.adapter.input.mapper.PagamentoMapper;
 import com.um_sushi.Um_Sushi.port.input.FinalizarPagamentoUserCase;
 import com.um_sushi.Um_Sushi.port.input.ProcessarPagamentoUserCase;
 import com.um_sushi.Um_Sushi.port.input.SalvarCartaoUserCase;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class PagamentoController {
     private final PagamentoMapper mapper;
 
     @PostMapping("/cadastrar-cartao")
-    public ResponseEntity<Void> salvarCartao(@RequestBody CartaoRequest request) {
+    public ResponseEntity<Void> salvarCartao(@Valid @RequestBody CartaoRequest request) {
         LOGGER.info("Recebendo operação para cadastrar cartao do cliente: " + request);
 
         salvarCartaoUserCase.salvar(mapper.toCartaoRequest(request));
@@ -42,7 +43,8 @@ public class PagamentoController {
     }
 
     @PostMapping("/processando")
-    public ResponseEntity<ProcessarPagamentoResponse> processarPagamento(@RequestBody ProcessarPagamentoRequest request) {
+    public ResponseEntity<ProcessarPagamentoResponse> processarPagamento(
+            @Valid @RequestBody ProcessarPagamentoRequest request) {
         LOGGER.info("Dados para iniciar o processamento do pagamento: " + request);
 
         String m = processarPagamentoUserCase.processarPagamento(mapper.toProcessarPagamentoRequest(request));
@@ -51,11 +53,11 @@ public class PagamentoController {
     }
 
     @PostMapping("/finalizar")
-    public ResponseEntity<String> finalizarPagamento(@RequestBody FinalizarPagamentoRequest request) {
+    public ResponseEntity<String> finalizarPagamento(@Valid @RequestBody FinalizarPagamentoRequest request) {
+
         LOGGER.info("Dados de confirmação do pagamento: " + request);
 
         return ResponseEntity.status(HttpStatus.OK).body(
-                finalizarPagamentoUserCase.finalizarPagamento(mapper.toFinalizarPagamentoRequest(request))
-        );
+                finalizarPagamentoUserCase.finalizarPagamento(mapper.toFinalizarPagamentoRequest(request)));
     }
 }
