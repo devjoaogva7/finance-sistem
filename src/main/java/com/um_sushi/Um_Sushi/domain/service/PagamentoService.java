@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class PagamentoService implements SalvarCartaoUserCase, ProcessarPagament
     private final AlterarClienteUserCase alterarClienteUserCase;
     private final ProcessarPagamentoPort processarPagamentoPort;
     private final ConsultarEstabelecimentoPort consultarEstabelecimentoPort;
+    private final PagamentoRepository pagamentoRepository;
 
     @Override
     @Transactional
@@ -54,49 +58,77 @@ public class PagamentoService implements SalvarCartaoUserCase, ProcessarPagament
 
         Optional<Cliente> cliente = consultarClientePort.buscarPorCpf(request.getCpf());
 
-        Estabelecimento estabelecimento = consultarEstabelecimentoPort.buscarDadosEstabelicentoPorId(ID_ESTABELECIMENTO).orElseThrow(() -> new RuntimeException("Estabelecimento não encontrado"));
-        Pedido pedido = consultarEstabelecimentoPort.buscarPedidoPorCpfCliente(cliente.get().getCpf()).orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
-        Frete frete = consultarEstabelecimentoPort.buscarFretePorId(ID_FRETE_VALOR_UNICO).orElseThrow(() -> new RuntimeException("Frete não encontrado"));
+        Estabelecimento estabelecimento = consultarEstabelecimentoPort.buscarDadosEstabelicentoPorId(ID_ESTABELECIMENTO)
+                .orElseThrow(() -> new RuntimeException("Estabelecimento não encontrado"));
+        Pedido pedido = consultarEstabelecimentoPort.buscarPedidoPorCpfCliente(cliente.get().getCpf())
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+        Frete frete = consultarEstabelecimentoPort.buscarFretePorId(ID_FRETE_VALOR_UNICO)
+                .orElseThrow(() -> new RuntimeException("Frete não encontrado"));
 
         BigDecimal valorTotal = calcularValorTotalPedido(pedido.getValor(), frete.getPreco());
 
         return processarPagamentoPort.salvar(request, valorTotal, cliente.orElse(null), estabelecimento, frete, pedido);
     }
 
-    //TODO adequuar a função para o tipo de pagamento se for pix deve mostra o QRcode no response, se for credito ou debito deve validar o CVV do cartao ajustar a request para aceitar o CVV
     @Override
+    @Transactional
     public String finalizarPagamento(FinalizarPagamento request) {
-//        PagamentoCredito pagamentoCredito = new PagamentoCredito();
-//        PagamentoDebito pagamentoDebito = new PagamentoDebito();
-//        PagamentoPix pagamentoPix = new PagamentoPix();
-//
-//        PagamentoEntity pagamento = pagamentoRepository.findById(request.getIdPagamento())
-//                .orElseThrow(() -> new IllegalArgumentException("Pagamento não encontrado com o ID: " + request.getIdPagamento()));
-//
-//        if (request.getConfirmacao() == EnumConfirmacaoPagamento.SIM) {
-//
-//            if (pagamento.getFormaPagamento().equals(EnumFormaPagamento.CREDITO.getDescricao())) {
-//                pagamentoCredito.processar(pagamento);
-//            } else if (pagamento.getFormaPagamento().equals(EnumFormaPagamento.DEBITO.getDescricao())) {
-//                pagamentoDebito.processar(pagamento);
-//            } else if (pagamento.getFormaPagamento().equals(EnumFormaPagamento.PIX.getDescricao())) {
-//                pagamentoPix.processar(pagamento);
-//            }
-//
-//            pagamento.setStatus(EnumStatus.APROVADO.getDescricao());
-//
-//        } else if (request.getConfirmacao() == EnumConfirmacaoPagamento.NAO) {
-//            pagamento.setStatus(EnumStatus.CANCELADO.getDescricao());
-//        }
-//
-//        var pFinalizado = pagamentoRepository.save(pagamento);
-//
-//        return pFinalizado.comprovante();
-        return null;
+        PagamentoEntity pagamento = pagamentoRepository.findById(request.getIdPagamento())
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Pagamento não encontrado com o ID: " + request.getIdPagamento()));
+
+        if (request.getConfirmacao() == EnumConfirmacaoPagamento.SIM) {
+            // Lógica de processamento de pagamento por tipo (simulada)
+            // Em um cenário real, isso envolveria gateways de pagamento externos para
+            // segurança e processamento real.
+            if (pagamento.getFormaPagamento().equals(EnumFormaPagamento.CREDITO.getDescricao())) {
+                // Exemplo de validação de CVV (se CVV estivesse na requisição e não armazenado
+                // permanentemente)
+                // if (request.getCvv() == null ||
+                // !request.getCvv().equals(pagamento.getCartao().getCvv())) throw new
+                // IllegalArgumentException("CVV inválido");
+                // Para este exemplo, apenas simula aprovação
+                System.out.println("Processando pagamento de CRÉDITO para ID: " + pagamento.getId());
+                // Chamar lógica de integração com gateway de crédito aqui
+            } else if (pagamento.getFormaPagamento().equals(EnumFormaPagamento.DEBITO.getDescricao())) {
+                // Lógica de débito
+                System.out.println("Processando pagamento de DÉBITO para ID: " + pagamento.getId());
+                // Chamar lógica de integração com gateway de débito aqui
+            } else if (pagamento.getFormaPagamento().equals(EnumFormaPagamento.PIX.getDescricao())) {
+                // Lógica de PIX (gerar QR code ou confirmar pagamento externo)
+                System.out.println("Processando pagamento PIX para ID: " + pagamento.getId());
+                // Chamar lógica para confirmar PIX (ex: consulta status da transação no banco)
+                // Se a confirmação fosse para gerar o QR Code, essa lógica estaria no método
+                // 'processarPagamento'
+            }
+            pagamento.setStatus(EnumStatus.APROVADO.getDescricao());
+        } else if (request.getConfirmacao() == EnumConfirmacaoPagamento.NAO) {
+            pagamento.setStatus(EnumStatus.CANCELADO.getDescricao());
+        } else {
+            throw new IllegalArgumentException("Confirmação de pagamento inválida. Use 'SIM' ou 'NAO'.");
+        }
+
+        pagamento.setDatahora(LocalDateTime.now()); // Atualiza a data/hora da finalização
+        var pFinalizado = pagamentoRepository.save(pagamento);
+
+        return pFinalizado.comprovante();
     }
 
-    private BigDecimal calcularValorTotalPedido(BigDecimal valorPedido, BigDecimal valorFrete) {
-        BigDecimal valor = valorPedido.add(valorFrete);
-        return valor;
+    private BigDecimal calcularValorTotalPedido(BigDecimal valorPedido, BigDecimal valorFrete,
+            EnumCuponsDisponiveis cupom) {
+        BigDecimal valorTotal = valorPedido.add(valorFrete);
+
+        if (cupom != null) {
+            if (cupom.isValido()) {
+                BigDecimal desconto = valorTotal.multiply(BigDecimal.valueOf(cupom.getDescontoPercentual())
+                        .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP));
+                valorTotal = valorTotal.subtract(desconto);
+                System.out.println("Cupom " + cupom.getNome() + " aplicado. Desconto de "
+                        + cupom.getDescontoPercentual() + "%. Novo valor total: R$ " + valorTotal);
+            } else {
+                System.out.println("Cupom " + cupom.getNome() + " inválido ou expirado. Desconto não aplicado.");
+            }
+        }
+        return valorTotal.setScale(2, RoundingMode.HALF_UP);
     }
 }
