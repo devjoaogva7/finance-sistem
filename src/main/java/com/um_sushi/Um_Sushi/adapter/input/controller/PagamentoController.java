@@ -37,7 +37,7 @@ public class PagamentoController {
     public ResponseEntity<Void> salvarCartao(@RequestBody CartaoRequest request) {
         LOGGER.info("Recebendo operação para cadastrar cartao do cliente: " + request);
 
-        salvarCartaoUserCase.salvar(mapper.toCartaoRequest(request));
+        salvarCartaoUserCase.salvarCartao(mapper.toCartaoRequest(request));
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

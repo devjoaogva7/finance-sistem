@@ -5,7 +5,9 @@ import com.um_sushi.Um_Sushi.adapter.output.database.mapper.RepositoryMapper;
 import com.um_sushi.Um_Sushi.adapter.output.database.repository.EstabelecimentoRepository;
 import com.um_sushi.Um_Sushi.adapter.output.database.repository.FreteRepository;
 import com.um_sushi.Um_Sushi.adapter.output.database.repository.PagamentoRepository;
+import com.um_sushi.Um_Sushi.adapter.output.database.repository.PedidoRepository;
 import com.um_sushi.Um_Sushi.domain.model.*;
+import com.um_sushi.Um_Sushi.port.output.ConsultarPagamentoPort;
 import com.um_sushi.Um_Sushi.port.output.FinalizarPagamentoPort;
 import com.um_sushi.Um_Sushi.port.output.ProcessarPagamentoPort;
 import com.um_sushi.Um_Sushi.port.output.SalvarCartaoPort;
@@ -15,16 +17,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Component
 @AllArgsConstructor
-public class PagamentoPersistence implements SalvarCartaoPort, ProcessarPagamentoPort, FinalizarPagamentoPort {
+public class PagamentoPersistence implements SalvarCartaoPort, ProcessarPagamentoPort, FinalizarPagamentoPort, ConsultarPagamentoPort {
 
     @Autowired
     private EstabelecimentoRepository estabelecimentoRepository;
-
+    @Autowired
+    private PagamentoRepository pagamentoRepository;
+    @Autowired
+    private PedidoRepository pedidoRepository;
     @Autowired
     private EntityManager entityManager;
+
     private RepositoryMapper mapper;
 
     @Override
@@ -50,5 +57,25 @@ public class PagamentoPersistence implements SalvarCartaoPort, ProcessarPagament
         entityManager.persist(pagamento);
 
         return "Pagamento processado com ID: " + pagamento.getId() + ". Status: \"PENDENTE\", aguardando confirmação.";
+    }
+
+    @Override
+    public Optional<Pagamento> alterarPagamento(Pagamento pagamento) {
+        PagamentoEntity entity = mapper.toEntityPagamento(pagamento);
+
+        Long pedidoId = entity.getPedido().getId();
+        PedidoEntity pedidoEntity = pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+
+        entity.setPedido(pedidoEntity);
+
+        PagamentoEntity atualizado = pagamentoRepository.save(entity);
+        return Optional.of(mapper.toModelPagamento(atualizado));
+    }
+
+    @Override
+    public Optional<Pagamento> consultarPeloId(Long id) {
+        return pagamentoRepository.findById(id)
+                .map(mapper::toModelPagamento);
     }
 }
