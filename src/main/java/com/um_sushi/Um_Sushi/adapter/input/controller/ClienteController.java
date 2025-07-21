@@ -4,6 +4,7 @@ import com.um_sushi.Um_Sushi.adapter.input.dto.requets.ClienteCadastroRequest;
 import com.um_sushi.Um_Sushi.adapter.input.dto.responses.ClienteCadastroResponse;
 import com.um_sushi.Um_Sushi.adapter.input.mapper.ClienteMapper;
 import com.um_sushi.Um_Sushi.port.input.SalvarClienteUserCase;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
@@ -28,11 +29,13 @@ public class ClienteController {
     private final ClienteMapper mapper;
 
     @PostMapping("/cadastrar")
-    public ResponseEntity<ClienteCadastroResponse> salvar(@RequestBody ClienteCadastroRequest request) {
+    public ResponseEntity<ClienteCadastroResponse> salvar(@Valid @RequestBody ClienteCadastroRequest request) {
+
         LOGGER.info("Recebendo operação para cadastrar cliente: " + request);
 
         String menssagem = salvarClienteUserCase.salvar(mapper.toCadastroRequest(request));
 
-        return ResponseEntity.status(HttpStatus.OK).body(ClienteCadastroResponse.builder().menssagem(menssagem).build());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ClienteCadastroResponse.builder().menssagem(menssagem).build());
     }
 }
