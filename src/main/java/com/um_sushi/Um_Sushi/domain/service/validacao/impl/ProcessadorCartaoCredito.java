@@ -7,7 +7,7 @@ public class ProcessadorCartaoCredito implements ProcessadorPagamento {
 
     @Override
     public void processar(Pagamento pagamento) {
-        if (pagamento.getCliente() == null) {
+        if (pagamento.getCliente() == null || pagamento.getCliente().getCartao() == null) {
             throw new IllegalStateException("Cartão de crédito não cadastrado para este cliente.");
         }
 

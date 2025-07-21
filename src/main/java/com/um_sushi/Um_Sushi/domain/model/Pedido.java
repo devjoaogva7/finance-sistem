@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Pedido {
 
+    private Long id;
     private Cliente cliente;
     private List<Produto> produtos;
     private BigDecimal valor;

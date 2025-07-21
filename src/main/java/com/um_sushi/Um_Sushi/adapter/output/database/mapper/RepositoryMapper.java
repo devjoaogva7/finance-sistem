@@ -104,4 +104,7 @@ public interface RepositoryMapper {
     Pagamento toModelPagamento(PagamentoEntity entity);
 
     PagamentoEntity toEntityPagamento(Pagamento pagamento);
+
+    @Mapping(target = "cliente", ignore = true)
+    void updatePagamentoEntityFromModel(Pagamento pagamento, @MappingTarget PagamentoEntity entity);
 }

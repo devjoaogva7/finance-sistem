@@ -50,9 +50,10 @@ public class PagamentoPersistence implements SalvarCartaoPort, ProcessarPagament
     @Override
     public String salvar(ProcessarPagamento request, BigDecimal valorTotal, Cliente cliente, Estabelecimento estabelecimento, Frete frete, Pedido pedido) {
 
-
         PagamentoEntity pagamento = mapper.toSavePagamentoEntity(request, valorTotal, cliente, estabelecimento, frete, pedido);
-        PedidoEntity pedidoGerenciado = entityManager.merge(mapper.toSavePedidoEntity(pedido));
+        pagamento.setId(null);
+        PedidoEntity pedidoGerenciado = pedidoRepository.findById(pedido.getId())
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
         pagamento.setPedido(pedidoGerenciado);
         entityManager.persist(pagamento);
 
@@ -61,15 +62,19 @@ public class PagamentoPersistence implements SalvarCartaoPort, ProcessarPagament
 
     @Override
     public Optional<Pagamento> alterarPagamento(Pagamento pagamento) {
-        PagamentoEntity entity = mapper.toEntityPagamento(pagamento);
 
-        Long pedidoId = entity.getPedido().getId();
-        PedidoEntity pedidoEntity = pedidoRepository.findById(pedidoId)
-                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+        PagamentoEntity existente = pagamentoRepository.findById(pagamento.getId())
+                .orElseThrow(() -> new RuntimeException("Pagamento não encontrado"));
 
-        entity.setPedido(pedidoEntity);
+        mapper.updatePagamentoEntityFromModel(pagamento, existente);
 
-        PagamentoEntity atualizado = pagamentoRepository.save(entity);
+        if (pagamento.getPedido() != null) {
+            PedidoEntity pedido = pedidoRepository.findById(pagamento.getPedido().getId())
+                    .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+            existente.setPedido(pedido);
+        }
+
+        PagamentoEntity atualizado = pagamentoRepository.save(existente);
         return Optional.of(mapper.toModelPagamento(atualizado));
     }
 
