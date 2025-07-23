@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface ConsultarEstabelecimentoPort {
 
-    Optional<Estabelecimento> buscarDadosEstabelicentoPorId(Long id);
+    Optional<Estabelecimento> buscarDadosEstabelicentoPorId();
 
-    Optional<Frete> buscarFretePorId(Long idFreteValorUnico);
+    Optional<Frete> buscarFretePorId();
 
     Optional<Pedido> buscarPedidoPorCpfCliente(Long cpf);
 

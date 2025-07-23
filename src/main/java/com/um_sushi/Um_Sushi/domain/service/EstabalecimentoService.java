@@ -30,6 +30,13 @@ public class EstabalecimentoService implements SalvarEstabelecimentoUserCase, Co
         return salvarEstabelecimentoPort.salvarPedido(request);
     }
 
+    @Override
+    public List<Produto> consultarProdutos() {
+        return consultarEstabelecimentoPort.consultarProdutos();
+    }
+
+
+    //FUNCOES PRIVADAS
     private BigDecimal calcularProdutos(Pedido pedido) {
         BigDecimal valorTotal = BigDecimal.ZERO;
         for (Produto p : pedido.getProdutos()) {
@@ -37,10 +44,5 @@ public class EstabalecimentoService implements SalvarEstabelecimentoUserCase, Co
             valorTotal = valorTotal.add(produto.getPreco().multiply(BigDecimal.valueOf(p.getQuantidade())));
         }
         return valorTotal;
-    }
-
-    @Override
-    public List<Produto> consultarProdutos() {
-        return consultarEstabelecimentoPort.consultarProdutos();
     }
 }

@@ -4,5 +4,5 @@ import com.um_sushi.Um_Sushi.domain.model.Cartao;
 
 public interface SalvarCartaoUserCase {
 
-    void salvar(Cartao request);
+    void salvarCartao(Cartao request);
 }
