@@ -6,6 +6,7 @@ import org.mapstruct.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
@@ -89,4 +90,21 @@ public interface RepositoryMapper {
     @Mapping(target = "cartao.cvv", source = "cvv")
     @Mapping(target = "cartao.bandeira", source = "bandeira")
     void updateCartaoClienteEntity(Cartao cartao, @MappingTarget ClienteEntity entity);
+
+    @Mapping(target = "status", source = "status")
+    @Mapping(target = "datahora", source = "datahora")
+    @Mapping(target = "formaPagamento", source = "formaPagamento")
+    @Mapping(target = "cliente", source = "cliente")
+    @Mapping(target = "estabelecimento", source = "estabelecimento")
+    @Mapping(target = "cupom", source = "cupom")
+    @Mapping(target = "frete", source = "frete")
+    @Mapping(target = "pedido", source = "pedido")
+    @Mapping(target = "valor", source = "valor")
+    @Mapping(target = "parcelas", source = "parcelas")
+    Pagamento toModelPagamento(PagamentoEntity entity);
+
+    PagamentoEntity toEntityPagamento(Pagamento pagamento);
+
+    @Mapping(target = "cliente", ignore = true)
+    void updatePagamentoEntityFromModel(Pagamento pagamento, @MappingTarget PagamentoEntity entity);
 }

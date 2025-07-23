@@ -45,12 +45,12 @@ public class EstabelecimentoPersistence implements ConsultarEstabelecimentoPort,
     }
 
     @Override
-    public Optional<Estabelecimento >buscarDadosEstabelicentoPorId(Long id) {
+    public Optional<Estabelecimento >buscarDadosEstabelicentoPorId() {
         return Optional.ofNullable(mapper.toEstabelecimentoModel(estabelecimentoRepository.findFirstByOrderByCnpjAsc()));
     }
 
     @Override
-    public Optional<Frete> buscarFretePorId(Long id) {
+    public Optional<Frete> buscarFretePorId() {
 
         return Optional.ofNullable(mapper.toFreteModel(freteRepository.findFirstByOrderByIdAsc()));
     }
